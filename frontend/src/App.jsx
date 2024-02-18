@@ -3,8 +3,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Bookings, Calender, Dashboard, HomeLayout, ImportXML, Login, Profile, Register,Blog} from "./pages";
-
+import { Bookings, Calender, Dashboard, HomeLayout, ImportXML, Login, Profile, Register,Blog,Error} from "./pages";
+import AuthRoute from "./components/AuthRoute"
+import ErrorElement from "./components/ErrorElement";
 const router = createBrowserRouter([
   {
     path:'/',
@@ -13,27 +14,33 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <AuthRoute><Dashboard /></AuthRoute>,
+        errorElement: <ErrorElement/>
       },
       {
         path: "/bookings",
         element: <Bookings />,
+        errorElement: <ErrorElement/>
       },
       {
         path: "/calender",
         element: <Calender />,
+        errorElement: <ErrorElement/>
       },
       {
         path: "/blog",
         element: <Blog />,
+        errorElement:<ErrorElement/>
       },
       {
         path: "/importXML",
         element: <ImportXML />,
+        errorElement: <ErrorElement/>
       },
       {
         path:"/profile",
-        element:<Profile />
+        element:<Profile />,
+        errorElement: <ErrorElement/>
       }
     ]
 
