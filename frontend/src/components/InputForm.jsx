@@ -1,4 +1,4 @@
-const InputForm = ({ label, placeholder, type, name }) => {
+const InputForm = ({ label, placeholder, type, name,pattern,errorMessage }) => {
   return (
     <label className="form-control w-full max-w-xs">
       <div className="label">
@@ -9,7 +9,10 @@ const InputForm = ({ label, placeholder, type, name }) => {
         name={name}
         placeholder={placeholder}
         className="input input-bordered w-full max-w-xs"
+        pattern={pattern}
+        required
       />
+      <span>{errorMessage}</span>
     </label>
   );
 };

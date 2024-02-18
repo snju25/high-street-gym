@@ -11,3 +11,22 @@
       }
 
 }
+
+input:user-invalid {
+    border: 1px solid red;
+  }
+  
+  input:user-valid {
+    border: 1px solid rgb(84, 196, 84);
+  }
+  
+  input + span {
+    color: red;
+    visibility: hidden;
+    margin: 0.2rem;
+    font-size: 0.75rem;
+  }
+  
+  input:user-invalid + span {
+    visibility: visible;
+  }

@@ -11,12 +11,15 @@ const Login = () => {
           type="text"
           placeholder="username"
           name="username"
+          errorMessage="This field ...."
         />
         <InputForm
           label="password"
           type="password"
           placeholder="password"
           name="password"
+          pattern=".{7,}"
+          errorMessage = "This field is required"
         />
         <SubmitBtn text={"Login"} />
         <p className='text-center'>
@@ -29,6 +32,8 @@ const Login = () => {
           </Link>
         </p>
       </Form>
+
+      
 
     </section>
   );
