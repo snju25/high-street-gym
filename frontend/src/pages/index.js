@@ -8,4 +8,6 @@ export {default as Register} from "./Register"
 export {default as Blog} from "./Blog"
 export {default as Bookings} from "./Bookings"
 export{default as Profile} from "./Profile"
+export{default as CreateBooking} from "./CreateBooking"
+export{default as SingleBlogPage} from "./SingleBlogPage"
 
