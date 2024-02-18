@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
-    const user = {
-        username:"demo User"
-    }
-    // const user = null
+    // const user = {
+    //     username:"demo User"
+    // }
+    const user = null
   return (
     <header className=' bg-[#021431] py-2 text-neutral-content '>
     <div className='align-element flex justify-center sm:justify-end '>

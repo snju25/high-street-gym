@@ -41,6 +41,9 @@ const Navbar = () => {
               <li>
                 <NavLink to="/profile">Profile</NavLink>
               </li>
+              <li>
+                <NavLink to="/blog">Blogs</NavLink>
+              </li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">High Street Gym</a>
@@ -61,6 +64,9 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink to="/profile">Profile</NavLink>
+              </li>
+              <li>
+                <NavLink to="/blog">Blogs</NavLink>
               </li>
           </ul>
         </div>
