@@ -32,9 +32,6 @@ const Login = () => {
           </Link>
         </p>
       </Form>
-
-      
-
     </section>
   );
 };
