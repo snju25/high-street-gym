@@ -51,12 +51,12 @@ export const createUser = async (user) =>{
     })
 }
 
-const getByID = async (userID) =>{
+export const getByEmail = async (email) =>{
     const [userResults] = await db.query(
-        "SELECT * FROM users WHERE user_id = ?", userID
+        "SELECT * FROM users WHERE user_email = ?", email
     )
     // userResults return an array and we need an object to work with here.
-    if(userResult.length>0){
+    if(userResults.length>0){
         const userResult = userResults[0]
         return Promise.resolve(
             userResult.user_id.toString(),
@@ -74,3 +74,31 @@ const getByID = async (userID) =>{
         return Promise.reject("no results found")
     }
 }
+
+export const update = async (user) => {
+    return db.query(
+        "UPDATE users SET "
+        + "user_email = ?, "
+        + "user_password = ?, "
+        + "user_role = ?, "
+        + "user_phone = ?, "
+        + "user_firstName = ?, "
+        + "user_lastName = ?, "
+        + "user_authentication_key = ? "
+        + "WHERE id = ?",
+        [
+            user.email,
+            user.password,
+            user.role,
+            user.phone,
+            user.firstName,
+            user.lastName,
+            user.authenticationKey,
+            user.id
+        ]
+    ).then(([result]) => {
+        return { ...user, id: result.insertId }
+    })
+}
+
+const email = ""
