@@ -4,8 +4,14 @@ import {
 } from "react-router-dom";
 
 import { Bookings, Calender, Dashboard, HomeLayout, ImportXML, Login, Profile, Register,Blog,Error,CreateBooking, SingleBlogPage} from "./pages";
+import {action as loginAction } from "./pages/Login"
+import {action as registerAction } from "./pages/Register"
 import AuthRoute from "./components/AuthRoute"
 import ErrorElement from "./components/ErrorElement";
+import store from "./store";
+
+
+
 const router = createBrowserRouter([
   {
     path:'/',
@@ -63,11 +69,13 @@ const router = createBrowserRouter([
   },
   {
     path:"/login",
-    element:<Login />
+    element:<Login />,
+    action: loginAction(store)
   },
   {
     path:"/register",
-    element:<Register />
+    element:<Register />,
+    action: registerAction,
   }
 
 ])

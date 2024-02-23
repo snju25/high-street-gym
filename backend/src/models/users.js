@@ -57,23 +57,26 @@ export const getByEmail = async (email) =>{
     )
     // userResults return an array and we need an object to work with here.
     if(userResults.length>0){
+        console.log
         const userResult = userResults[0]
         return Promise.resolve(
-            userResult.user_id.toString(),
-            userResult.user_email,
-            userResult.user_password,
-            userResult.user_role,
-            userResult.user_phone,
-            userResult.user_firstName,
-            userResult.user_lastName,
-            userResult.user_address,
-            userResult.authenticationKey
-                
+            newUser(
+                userResult.user_id.toString(),
+                userResult.user_email,
+                userResult.user_password,
+                userResult.user_role,
+                userResult.user_phone,
+                userResult.user_firstName,
+                userResult.user_lastName,
+                userResult.user_address,
+                userResult.authenticationKey
             )
+        )
     } else {
         return Promise.reject("no results found")
     }
 }
+
 
 export const update = async (user) => {
     return db.query(
@@ -84,8 +87,8 @@ export const update = async (user) => {
         + "user_phone = ?, "
         + "user_firstName = ?, "
         + "user_lastName = ?, "
-        + "user_authentication_key = ? "
-        + "WHERE id = ?",
+        + "authenticationKey = ? "
+        + "WHERE user_id = ?",
         [
             user.email,
             user.password,

@@ -24,10 +24,17 @@ export const loginUser = async(req,res)=>{
                 res.status(200).json({
                     status:200,
                     message: "Successfully Logged In",
-                    authenticationKey: user.authenticationKey,
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    email: result.email,
+                    address: result.address,
+                    role: result.role,
+                    phone: result.phone,
+                    authenticationKey: result.authenticationKey,
                 })
             })
         } 
+        // if password is wrong
         else {
             res.status(400).json({
                 status: 400,
@@ -39,7 +46,7 @@ export const loginUser = async(req,res)=>{
         console.log(error)
         res.status(500).json({
             status: 500,
-            message: "login failed"
+            message: "Login Failed, Please provide correct credentials",
         })
     })
 
