@@ -57,7 +57,6 @@ export const getByEmail = async (email) =>{
     )
     // userResults return an array and we need an object to work with here.
     if(userResults.length>0){
-        console.log
         const userResult = userResults[0]
         return Promise.resolve(
             newUser(

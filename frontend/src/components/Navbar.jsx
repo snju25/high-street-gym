@@ -33,7 +33,7 @@ const Navbar = () => {
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
               <li>
-                <NavLink to="/calender">Timetable</NavLink>
+                <NavLink to="/calender">Calender</NavLink>
               </li>
               <li>
                 <NavLink to="/importXML">XML Import</NavLink>
@@ -57,7 +57,7 @@ const Navbar = () => {
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
               <li>
-                <NavLink to="/calender">Timetable</NavLink>
+                <NavLink to="/calender">Calender</NavLink>
               </li>
               <li>
                 <NavLink to="/importXML">XML Import</NavLink>
