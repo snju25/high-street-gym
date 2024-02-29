@@ -17,7 +17,6 @@ export const action = (store) => async ({request}) => {
   } catch(err){
     return err
   }
-  return null
 }
 
 
