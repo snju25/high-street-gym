@@ -86,6 +86,15 @@ export const getById = async(req,res) =>{
 }
 
 //  user can delete their blog
+export const deleteBlogPost = async (req,res) =>{
+    const postID = req.params.id
+    Blog.deletePost(postID).then(result=>{
+        res.status(200).json({
+            status: 200,
+            message: "Deleted Successfully"
+        })
+    })
+}
 
 
 

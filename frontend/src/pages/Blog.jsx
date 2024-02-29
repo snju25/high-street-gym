@@ -1,4 +1,4 @@
-import {Form, Link, useLoaderData} from "react-router-dom"
+import {Form, Link, useLoaderData, useNavigate} from "react-router-dom"
 import customFetch from "../utils/axios/axios"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
@@ -35,9 +35,20 @@ export const loader = async ({request}) =>{
 
 const Blog = () => {
   const {allBlogPost} = useLoaderData()
+  const navigate = useNavigate()
 
   // checks if user exist within the userState in userSlice to disable or enable create blog button. 
   const user = useSelector(state=> state.userState.user)
+
+  const handleDelete = async (post_id) => {
+    try {
+        const response = await customFetch.delete(`/blog/${post_id}`);
+        toast.success(response.data.message || "Post deleted successfully");
+        navigate(0)
+    } catch (error) {
+        toast.error("Error deleting post");
+    }
+};
 
   return (
     <main>
@@ -62,7 +73,7 @@ const Blog = () => {
               <p>{content}</p>
               {user && user_id === user.user_id
               &&  <div className="card-actions justify-end ml-auto">
-              <button className="btn bg-red-400 p-0 px-2 py-1 text-white">Delete</button>
+              <button className="btn bg-red-400 p-0 px-2 py-1 text-white" onClick={() =>handleDelete(post_id)}>Delete</button>
               <Link to={`/blog/${post_id}`} className="btn bg-gray-400 p-0 px-2 py-1 text-white">Edit</Link>
               </div>
               }
