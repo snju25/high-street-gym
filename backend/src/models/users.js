@@ -20,7 +20,7 @@ export const getAll = async() =>{
 
     return await allUserResults.map((userResult)=>{
         return newUser(
-            userResult.user_id.toString(),
+            userResult.user_id,
             userResult.user_email,
             userResult.user_password,
             userResult.user_role,
@@ -59,7 +59,7 @@ export const getByEmail = async (email) =>{
         const userResult = userResults[0]
         return Promise.resolve(
             newUser(
-                userResult.user_id.toString(),
+                userResult.user_id,
                 userResult.user_email,
                 userResult.user_password,
                 userResult.user_role,
@@ -84,7 +84,7 @@ export const getByID = async (userID) =>{
         const userResult = userResults[0]
         return Promise.resolve(
             newUser(
-                userResult.user_id.toString(),
+                userResult.user_id,
                 userResult.user_email,
                 userResult.user_password,
                 userResult.user_role,
@@ -132,3 +132,4 @@ export const deletePost = async(userID) =>{
         "DELETE FROM blog_posts WHERE user_id = ?", userID
     )
 }
+

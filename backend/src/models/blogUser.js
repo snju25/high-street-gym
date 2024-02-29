@@ -30,4 +30,4 @@ export const getAllBlogs = async () => {
 // create one for indviual user post 
 
 // Example usage
-// getBlogUser().then(result => console.log(result));
+

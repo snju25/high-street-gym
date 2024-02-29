@@ -39,7 +39,14 @@ export const createABlog  = async(req,res) =>{
 
 // user should be able to edit their blog
 
+const editBlog = async(req,res)=>{
+    const {title,content} = req.body
+    const postId = req.params.id
+
+    const 
+}
+
 //  user can delete their blog
 
-//  user can create a blog
+
 
