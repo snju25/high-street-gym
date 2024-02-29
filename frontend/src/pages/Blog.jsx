@@ -63,14 +63,15 @@ const Blog = () => {
           </Form>
         </div>
       </section>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 place-items-center">
+      <section className="grid gap-3 place-items-center">
           {allBlogPost.map((blog)=>{
             const {post_id, datetime, title, firstName, lastName, user_id,content} = blog
-            return <div key={post_id} className="card card-compact w-[100%]  lg:w-[300px] bg-base-100 shadow-xl">
+            return <div key={post_id} className="card card-compact w-[100%] bg-base-100 shadow-xl">
             <div className="card-body">
               <h2 className="card-title text-2xl font-bold">{firstName} {lastName}</h2>
               <h2 className="text-2xl font-semibold">{title}</h2>
               <p>{content}</p>
+              <p>{new Date(datetime).toLocaleString()}</p>
               {user && user_id === user.user_id
               &&  <div className="card-actions justify-end ml-auto">
               <button className="btn bg-red-400 p-0 px-2 py-1 text-white" onClick={() =>handleDelete(post_id)}>Delete</button>
