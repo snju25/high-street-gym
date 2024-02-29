@@ -44,7 +44,6 @@ export const getPostByID = async(postID) =>{
 }
 
 export const createPost = async(post)=>{
-    delete post.id
     return db.query(
         "INSERT INTO blog_posts (post_user_id,post_title,post_content)" + "VALUES (?,?,?)",
         [
@@ -56,6 +55,23 @@ export const createPost = async(post)=>{
         return {...post, id: result.insertId}
     })
 }
+
+// update post 
+export const updatePost = async(post) => {
+    return db.query(
+        "UPDATE blog_posts SET"
+        + "post_title = ?"
+        + "post_content",
+        [
+            post.title,
+            post.content
+        ]
+    ).then(([result]) => {
+        return { ...post}
+    })
+
+}
+
 export const deletePost = async(postID) =>{
     return db.query(
         "DELETE FROM blog_posts WHERE post_id = ?", postID

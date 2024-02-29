@@ -20,7 +20,7 @@ export const userSlice = createSlice({
             localStorage.removeItem('userState');
             toast.success('Logged out successfully');
         },
-        editUser: (state,action) =>{
+        editUser: (state,action) => {
             console.log("edit user")
         }
     }

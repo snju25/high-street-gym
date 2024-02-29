@@ -11,7 +11,7 @@ export const getAllUsers = async (req,res)=>{
         users: users,
     })
 }
-// ---------Auth middleware -----------this can go in routes
+// ---------Auth middleware -----------this will go in routes
 // Login
 export const loginUser = async(req,res)=>{
     // check if there is email and password in 

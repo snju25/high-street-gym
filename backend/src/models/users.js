@@ -34,7 +34,6 @@ export const getAll = async() =>{
 }
 
 export const createUser = async (user) =>{
-    delete user.id
     return db.query(
         "INSERT INTO users (user_email,user_password,user_role,user_phone,user_firstName,user_lastName)"
         + "VALUE (?,?,?,?,?,?)",
@@ -99,8 +98,12 @@ export const update = async (user) => {
             user.id
         ]
     ).then(([result]) => {
-        return { ...user, id: result.insertId }
+        return { ...user }
     })
 }
 
-const email = ""
+export const deletePost = async(userID) =>{
+    return db.query(
+        "DELETE FROM blog_posts WHERE user_id = ?", userID
+    )
+}
