@@ -14,7 +14,7 @@ export const getAllBlogPost = async () =>{
     const [allBlogPosts] = await  db.query("SELECT * FROM blog_posts")
     return await allBlogPosts.map((blogPost)=>{
         return newBlogPost(
-            blogPost.post_id.toString(),
+            blogPost.post_id,
             blogPost.post_datetime,
             blogPost.post_user_id,
             blogPost.post_title,
@@ -30,7 +30,7 @@ export const getPostByID = async(postID) =>{
         const blogResult = blogResults[0]
         return Promise.resolve(
             newBlogPost(
-                blogResult.post_id.toString(),
+                blogResult.post_id,
                 blogResult.post_datetime,
                 blogResult.post_user_id,
                 blogResult.post_title,
@@ -57,20 +57,23 @@ export const createPost = async(post)=>{
 }
 
 // update post 
-export const updatePost = async(post) => {
+export const updatePost = async (post) => {
     return db.query(
-        "UPDATE blog_posts SET"
-        + "post_title = ?"
-        + "post_content",
+        "UPDATE blog_posts SET "
+        + "post_title = ?, "
+        + "post_content = ? "
+        + "WHERE post_id = ?",
         [
             post.title,
-            post.content
+            post.content,
+            post.id
         ]
     ).then(([result]) => {
         return { ...post}
-    })
+    });
+};
 
-}
+
 
 export const deletePost = async(postID) =>{
     return db.query(

@@ -39,11 +39,50 @@ export const createABlog  = async(req,res) =>{
 
 // user should be able to edit their blog
 
-const editBlog = async(req,res)=>{
+export const editBlog = async(req,res)=>{
     const {title,content} = req.body
     const postId = req.params.id
+    console.log(postId)
+    const app = 1
+    console.log(app)
 
-    const 
+    const blog = Blog.newBlogPost(
+        postId,
+        null,
+        null,
+        title,
+        content
+    )
+
+    Blog.updatePost(blog).then(post=>{
+        res.status(200).json({
+            status: 200,
+            message:"Updated Post",
+            post
+        })
+    }).catch(err =>{
+        res.status(500).json({
+            status: 500,
+            message:"Failed to update",
+            err
+        })
+    })
+}
+
+export const getById = async(req,res) =>{
+    const postID = req.params.id
+    const post  = await Blog.getPostByID(postID).then(post => {
+        res.status(200).json({
+            status: 200,
+            message:"Updated Post",
+            post
+        })
+    }).catch(err =>{
+        res.status(500).json({
+            status: 500,
+            message:"Failed to Load any post"
+        })
+    })
 }
 
 //  user can delete their blog

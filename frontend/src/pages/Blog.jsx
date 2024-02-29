@@ -15,7 +15,7 @@ export const action = (store) => async ({request}) => {
     toast.success(response.data.message || "Post Created successfully")
     return null
   } catch(err){
-    console.log(err)
+    return err
   }
   return null
 }
@@ -39,7 +39,7 @@ const Blog = () => {
 
   // checks if user exist within the userState in userSlice to disable or enable create blog button. 
   const user = useSelector(state=> state.userState.user)
-  console.log(user.user_id)
+
   return (
     <main>
       <section>
@@ -61,16 +61,17 @@ const Blog = () => {
               <h2 className="card-title text-2xl font-bold">{firstName} {lastName}</h2>
               <h2 className="text-2xl font-semibold">{title}</h2>
               <p>{content}</p>
-              {user_id === user.user_id
+              {user && user_id === user.user_id
               &&  <div className="card-actions justify-end ml-auto">
               <button className="btn bg-red-400 p-0 px-2 py-1 text-white">Delete</button>
-              <button className="btn bg-gray-400 p-0 px-2 py-1 text-white">Edit</button>
+              <Link to={`/blog/${post_id}`} className="btn bg-gray-400 p-0 px-2 py-1 text-white">Edit</Link>
               </div>
               }
             </div>
           </div>
           })}
       </section>
+      
       
     </main>
   )

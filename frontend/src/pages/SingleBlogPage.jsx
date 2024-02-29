@@ -1,30 +1,59 @@
+import { Form, Link, redirect, useLoaderData } from "react-router-dom"
+import customFetch from "../utils/axios/axios"
+import { useState } from "react"
+import {toast} from "react-toastify"
 
-// export const loader = async ({params}) =>{
-//   const {id} = params
-//   const response = await customFetch(`/products/${id}`)
-//   const product = response.data.data
-//   return {product}
 
-import { Link } from "react-router-dom"
-
-// }
-const sampleData = {
-    blogId:1,
-    username: "Sanjay",
-    title: "First blog post..................................",
-    subtitle:"I am 30  i want to make a career change. What should i do",
-    content:"The blog post Content here................."
+export const action = async({request,params})=>{
+  const formData = await request.formData()
+  const title = formData.get("title");
+  const content = formData.get("content");
+  try{
+    const response = await customFetch.patch(`/blog/${params.id}`,{title,content})
+    toast.success(response.data.message)
+    return redirect("/blog")
   }
-
+  catch(err){
+    toast.error("Post could not be updated")
+    return null
+  }
+}
+export const loader = async({params})=>{
+  try{
+    const response = await customFetch(`/blog/${params.id}`)
+    return response.data.post
+  }
+  catch(err){
+    return err
+  }
+}
 const SingleBlogPage = () => {
+  const post = useLoaderData();
+  const [formData, setFormData] = useState({
+    title:post.title,
+    content: post.content
+
+  })
   return (
-    <div>
-      <section className="flex items-center gap-3"><Link to='/blog'> <span className="font-bold text-3xl">&#8592;</span> </Link> <span className="text-4xl font-bold">{sampleData.title}</span></section>
-      <article className="mt-5">
-        <h1 className="text-3xl font-bold">{sampleData.subtitle}</h1>
-        <p className="">{sampleData.content}</p>
-      </article>
-    </div>
+    <Form method="post" className="flex flex-col gap-3">
+      <p className="text-2xl font-bold flex items-center gap-2" ><Link to='/blog'> <span className="font-bold text-3xl">&#8592;</span> </Link> <span>Update Blog</span></p>
+      <input
+        value={formData.title}
+        onChange={(e) => setFormData(existing => { return { ...existing, title: e.target.value } })}
+        name="title" 
+        placeholder="Title...." 
+        className="border border-gray-300 p-4 w-[90%]"
+         />
+      <input 
+        name="content" 
+        placeholder="Write your own blog here...." 
+        className="border border-gray-300 p-4 w-[90%] min-h-[100px]"
+        value={formData.content}
+        onChange={(e) => setFormData(existing => { return { ...existing, content: e.target.value } })}
+        
+        />
+      <button type="submit" className="btn btn-secondary" >Update</button>
+  </Form>
   )
 }
 export default SingleBlogPage
