@@ -1,72 +1,74 @@
-import {Form, Link} from "react-router-dom"
+import {Form, Link, useLoaderData} from "react-router-dom"
+import customFetch from "../utils/axios/axios"
+import { useSelector } from "react-redux"
+import { toast } from "react-toastify"
 
-import { useState } from "react"
-const testData = [
-  {
-    blogId:1,
-    username: "Sanjay",
-    title: "First blog post..................................",
-  },
-  {
 
-    blogId: 2,
-    username: "Sanjay",
-    title: "First blog post..................................",
-  },{
-    blogId: 3,
-    username: "Sanjay",
-    title: "First blog post..................................",
-  },
-  {
-    blogId: 4,
-    username: "Sanjay",
-    title: "First blog post..................................",
+// create a post loader
+export const action = (store) => async ({request}) => {
+  const formData = await request.formData()
+  const postContent = Object.fromEntries(formData)
+  const {user_id} = store.getState().userState.user
+  const {title, content} = postContent 
+  try{
+    const response = await customFetch.post("/createBlog", {user_id,title,content})
+    toast.success(response.data.message || "Post Created successfully")
+    return null
+  } catch(err){
+    console.log(err)
   }
-]
+  return null
+}
+
+
+// get all post loader
+export const loader = async ({request}) =>{
+  try{
+    const response = await customFetch("/allBlogs")
+    const allBlogPost = response.data
+    return {allBlogPost: allBlogPost?.allBlogs}
+  }
+  catch(error){
+
+  }
+  return null
+}
 
 const Blog = () => {
-  const [testShowBlogCreated,setTestShowBlogCreated] = useState(false)
+  const {allBlogPost} = useLoaderData()
+
+  // checks if user exist within the userState in userSlice to disable or enable create blog button. 
+  const user = useSelector(state=> state.userState.user)
   return (
     <main>
       <section>
         {/* Post a blog */}
         <div className="rounded-lg shadow-lg border min-h-[100px] mb-5 p-4">
-          <Form>
-            <input placeholder="Write your own blog here...." className="border border-gray-300 p-4 w-[90%] mr-3" />
-            <button className="btn btn-secondary" onClick={()=> setTestShowBlogCreated(true)}>Create</button>
+          <Form method="post" className="flex flex-col gap-3">
+            <h1 className="text-2xl font-bold" >Create a Post</h1>
+            <input name="title" placeholder="Title...." className="border border-gray-300 p-4 w-[90%]" />
+            <input name="content" placeholder="Write your own blog here...." className="border border-gray-300 p-4 w-[90%] min-h-[100px]" />
+            <button type="submit" className="btn btn-secondary" disabled={user?false: true}>Create</button>
           </Form>
         </div>
       </section>
       <section className="flex flex-col gap-5">
-          {testData.map((blog,i)=>{
-            return <section key={i} className="flex gap-3">
-              <img src="https://images.pexels.com/photos/15294904/pexels-photo-15294904/free-photo-of-portrait-of-brown-cat.jpeg" alt="default user photo" className="h-[40px] w-[40px] rounded-full object-cover"/>
-              <div className="flex justify-center flex-col">
-                <h1>{blog.username}</h1>
-                <p>{blog.title}</p>
+          {allBlogPost.map((blog)=>{
+            const {post_id, datetime, title, firstName, lastName, user_id,content} = blog
+            return <div key={post_id} className="card card-compact w-96 bg-base-100 shadow-xl">
+            <div className="card-body">
+              <h2 className="card-title text-2xl font-bold">{firstName} {lastName}</h2>
+              <h2 className="text-2xl font-semibold">{title}</h2>
+              <p>{content}</p>
+              <div className="card-actions justify-end">
+              <button className="btn btn-primary ml-auto p-0 px-2 py-1">Delete</button>
+              {/* <button className="btn btn-primary ml-auto p-0 px-2 py-1">Edit</button> */}
               </div>
-              <Link to={`/blog/${blog.blogId}`} className="btn btn-primary ml-auto p-0 px-2 py-1">Read More</Link>
-            </section>
-          })}
-
-          {testShowBlogCreated && <section className="flex gap-3">
-              <img src="https://images.pexels.com/photos/15294904/pexels-photo-15294904/free-photo-of-portrait-of-brown-cat.jpeg" alt="default user photo" className="h-[40px] w-[40px] rounded-full object-cover"/>
-              <div className="flex justify-center flex-col">
-                <h1>{testData[0].username}</h1>
-                <p>{testData[0].title}</p>
-              </div>
-              <Link to={`/blog/${testData[0].blogId}`} className="btn btn-primary ml-auto p-0 px-2 py-1">Read More</Link>
-            </section>}
-      </section>
-      <div className="card card-compact w-96 bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title">Shoes!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div className="card-actions justify-end">
-            <button className="btn btn-primary">Buy Now</button>
+            </div>
           </div>
-        </div>
-      </div>
+          })}
+      </section>
+      
     </main>
   )
 }

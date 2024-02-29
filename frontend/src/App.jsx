@@ -6,6 +6,8 @@ import {
 import { Bookings, Calender, Dashboard, HomeLayout, ImportXML, Login, Profile, Register,Blog,Error,CreateBooking, SingleBlogPage} from "./pages";
 import {action as loginAction } from "./pages/Login"
 import {action as registerAction } from "./pages/Register"
+import {action as blogAction } from "./pages/Blog"
+import {loader as blogLoader } from "./pages/Blog"
 import AuthRoute from "./components/AuthRoute"
 import ErrorElement from "./components/ErrorElement";
 import store from "./store";
@@ -46,7 +48,9 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
-        errorElement:<ErrorElement/>
+        errorElement:<ErrorElement/>,
+        action: blogAction(store),
+        loader: blogLoader,
       },
       // Single blog post read page............//
       {
