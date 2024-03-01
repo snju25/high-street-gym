@@ -8,10 +8,14 @@ import { toast } from "react-toastify"
 export const action = (store) => async ({request}) => {
   const formData = await request.formData()
   const postContent = Object.fromEntries(formData)
-  const {id} = store.getState().userState.user
+  const {id,authenticationKey} = store.getState().userState.user
   const {title, content} = postContent 
   try{
-    const response = await customFetch.post("/createBlog", {user_id:id,title,content})
+    const response = await customFetch.post("/createBlog", {user_id:id,title,content},{
+      headers: {
+        'X-AUTH-KEY': authenticationKey
+      }
+    })
     toast.success(response.data.message || "Post Created successfully")
     return null
   } catch(err){

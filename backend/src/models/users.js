@@ -14,6 +14,30 @@ export const newUser = (id,email,password,role,phone,firstName,lastName,address,
         authenticationKey
     }
 }
+export async function getByAuthenticationKey(authenticationKey) {
+    const [userResults] = await db.query(
+        "SELECT * FROM users WHERE authenticationKey = ?", authenticationKey
+    )
+
+    if (userResults.length > 0) {
+        const userResult = userResults[0]
+        return Promise.resolve(
+            newUser(
+                userResult.user_id,
+                userResult.user_email,
+                userResult.user_password,
+                userResult.user_role,
+                userResult.user_phone,
+                userResult.user_firstName,
+                userResult.user_lastName,
+                userResult.user_address,
+                userResult.authenticationKey
+            )
+        )
+    } else {
+        return Promise.reject("no results found")
+    }
+}
 
 export const getAll = async() =>{
     const [allUserResults] = await db.query("SELECT * FROM users")
@@ -134,4 +158,5 @@ export const deletePost = async(userID) =>{
         "DELETE FROM blog_posts WHERE user_id = ?", userID
     )
 }
+
 

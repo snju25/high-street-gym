@@ -135,4 +135,23 @@ export const updateUser = async (req,res) =>{
 
 // server side validation - ----- for all formData.
 
-
+export const logoutUser = async(req, res) => {
+    const authenticationKey = req.get("X-AUTH-KEY")
+    console.log(authenticationKey)
+    Users.getByAuthenticationKey(authenticationKey)
+        .then(user => {
+            user.authenticationKey = null
+            Users.update(user).then(user => {
+                res.status(200).json({
+                    status: 200,
+                    message: "user logged out"
+                })
+            })
+        }).catch(error => {
+            res.status(500).json({
+                status: 500,
+                message: "failed to logout user",
+                error
+            })
+        })
+}
