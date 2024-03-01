@@ -15,7 +15,7 @@ const Profile = () => {
     lastName: user.lastName,
     email: user.email,
     phone: user.phone,
-    password: "",
+    password: user.password,
     role: user.role,
     address: user.address || "", // if address is null then empty string
     authenticationKey: user.authenticationKey 
@@ -26,7 +26,11 @@ const Profile = () => {
     e.preventDefault()
 
     try{
-      const response = await customFetch.patch(`/profile/${user.id}`,formData)
+      const response = await customFetch.patch(`/profile/${user.id}`,formData,{
+        headers:{
+          "X-AUTH-KEY": formData.authenticationKey
+        }
+      })
       toast.success(response.data.message || "User has been updated")
       dispatch(editUser(formData))
     }catch(err){
