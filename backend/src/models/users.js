@@ -110,6 +110,7 @@ export const update = async (user) => {
         + "user_phone = ?, "
         + "user_firstName = ?, "
         + "user_lastName = ?, "
+        + "user_address = ?, "
         + "authenticationKey = ? "
         + "WHERE user_id = ?",
         [
@@ -119,6 +120,7 @@ export const update = async (user) => {
             user.phone,
             user.firstName,
             user.lastName,
+            user.address,
             user.authenticationKey,
             user.id
         ]

@@ -21,7 +21,9 @@ export const userSlice = createSlice({
             toast.success('Logged out successfully');
         },
         editUser: (state,action) => {
-            console.log("edit user")
+            state.user = {...action.payload}
+            localStorage.setItem("userState",JSON.stringify(state.user))
+            return state
         }
     }
 })

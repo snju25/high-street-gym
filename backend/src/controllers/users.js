@@ -93,7 +93,45 @@ export const registerUser = async(req,res)=>{
     })
 
 }
+// update user
 
+export const updateUser = async (req,res) =>{
+    const userID = req.params.id
+    const userData = req.body
+
+    userData.id = userID
+
+    if (userData.password && !userData.password.startsWith("$2a")) {
+        userData.password = await bcrypt.hash(userData.password, 10);
+    }
+     // Convert the user data into a User model object
+     const user = Users.newUser(
+        userData.id,
+        userData.email,
+        userData.password,
+        userData.role,
+        userData.phone,
+        userData.firstName,
+        userData.lastName,
+        userData.address,
+        userData.authenticationKey
+    )
+
+    // Use the update model function to update this user in the DB
+    Users.update(user).then(user => {
+        res.status(200).json({
+            status: 200,
+            message: "Updated user",
+            user: user
+        })
+    }).catch(error => {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: "Failed to update user",
+        })
+    })
+}
 
 // server side validation - ----- for all formData.
 
