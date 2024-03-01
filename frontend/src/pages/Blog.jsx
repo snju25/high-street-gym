@@ -8,10 +8,10 @@ import { toast } from "react-toastify"
 export const action = (store) => async ({request}) => {
   const formData = await request.formData()
   const postContent = Object.fromEntries(formData)
-  const {user_id} = store.getState().userState.user
+  const {id} = store.getState().userState.user
   const {title, content} = postContent 
   try{
-    const response = await customFetch.post("/createBlog", {user_id,title,content})
+    const response = await customFetch.post("/createBlog", {user_id:id,title,content})
     toast.success(response.data.message || "Post Created successfully")
     return null
   } catch(err){
@@ -72,7 +72,7 @@ const Blog = () => {
               <h2 className="text-2xl font-semibold">{title}</h2>
               <p>{content}</p>
               <p>{new Date(datetime).toLocaleString()}</p>
-              {user && user_id === user.user_id
+              {user && user_id === user.id
               &&  <div className="card-actions justify-end ml-auto">
               <button className="btn bg-red-400 p-0 px-2 py-1 text-white" onClick={() =>handleDelete(post_id)}>Delete</button>
               <Link to={`/blog/${post_id}`} className="btn bg-gray-400 p-0 px-2 py-1 text-white">Edit</Link>

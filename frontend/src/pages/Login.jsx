@@ -14,8 +14,8 @@ export const action = (store) => async ({request}) =>{
     const response = await customFetch.post("/login",loginData)
 
     // Pass the data to login action for userSlice reducer
-    const {user_id, firstName,lastName,email,address,role,authenticationKey} = response.data
-    store.dispatch(loginUser({user_id,firstName,lastName,email,address,role,authenticationKey}));
+    const {user} = response.data
+    store.dispatch(loginUser(user));
     toast.success(response.data.message)
     return redirect("/")
   }
