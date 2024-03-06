@@ -7,6 +7,7 @@ import customFetch from "../utils/axios/axios"
 export const action = async ({request}) =>{
   const formData = await request.formData()
   const registerData = Object.fromEntries(formData)
+  console.log(registerData)
 
   try{
     const response = await customFetch.post("/register",registerData)
@@ -14,6 +15,7 @@ export const action = async ({request}) =>{
     return redirect("/login")
   }
   catch (error){
+    console.log(error)
     toast.error(error?.response?.data?.message || "Dry different Credentials")
     return null
   }

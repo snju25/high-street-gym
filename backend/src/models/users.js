@@ -14,7 +14,7 @@ export const newUser = (id,email,password,role,phone,firstName,lastName,address,
         authenticationKey
     }
 }
-export async function getByAuthenticationKey(authenticationKey) {
+export const  getByAuthenticationKey = async(authenticationKey) => {
     const [userResults] = await db.query(
         "SELECT * FROM users WHERE authenticationKey = ?", authenticationKey
     )
@@ -58,16 +58,18 @@ export const getAll = async() =>{
 }
 
 export const createUser = async (user) =>{
+    console.log(user)
     return db.query(
-        "INSERT INTO users (user_email,user_password,user_role,user_phone,user_firstName,user_lastName)"
-        + "VALUE (?,?,?,?,?,?)",
+        "INSERT INTO users (user_email,user_password,user_role,user_phone,user_firstName,user_lastName,user_address)"
+        + "VALUE (?,?,?,?,?,?,?)",
         [
             user.email,
             user.password,
             user.role,
             user.phone,
             user.firstName,
-            user.lastName
+            user.lastName,
+            user.address
         ]
     ).then(([result])=>{
         return {...user, id: result.insertId }
@@ -155,7 +157,7 @@ export const update = async (user) => {
 
 export const deletePost = async(userID) =>{
     return db.query(
-        "DELETE FROM blog_posts WHERE user_id = ?", userID
+        "DELETE FROM users WHERE user_id = ?", userID
     )
 }
 
