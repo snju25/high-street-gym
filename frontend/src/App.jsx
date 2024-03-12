@@ -1,5 +1,6 @@
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
 
@@ -13,6 +14,7 @@ import {loader as blogLoader } from "./pages/Blog"
 import AuthRoute from "./components/AuthRoute"
 import ErrorElement from "./components/ErrorElement";
 import store from "./store";
+import ClassesByDay, {  loader as classesByDayLoader} from "./components/ClassesByDay";
 
 
 
@@ -44,7 +46,18 @@ const router = createBrowserRouter([
       {
         path: "/calender",
         element: <Calender />,
-        errorElement: <ErrorElement/>
+        errorElement: <ErrorElement/>,
+        children : [
+          {
+            index: true,
+            element: <Navigate to="/calender/Monday" replace />
+          },
+          {
+            path: ":day",
+            element: <ClassesByDay />,
+            loader: classesByDayLoader
+          }
+        ]
       },
       // Create blog post and read all blog post here............. with title.../////
       {
