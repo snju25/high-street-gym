@@ -6,7 +6,7 @@ const Calender = () => {
 
   return (
     <>
-      <div role="tablist" className="tabs tabs-boxed">
+      <div role="tablist" className="tabs tabs-boxed flex flex-wrap md:grid ">
         <Link
           to="/calender/Monday"
           className={`tab ${activeTab === "Monday" ? "tab-active" : ""}`}
