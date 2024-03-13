@@ -18,14 +18,17 @@ const ClassesByDay = () => {
     const currentUser = useSelector(state => state.userState.user)
     const user_id = currentUser.id
 
-    const handleBooking = ({user_id,class_id,day,trainer_id,time}) =>{
+    const handleBooking = async({user_id,class_id,day,class_trainer_user_id,class_datetime}) =>{
         // create booking api here.
-        console.log("created")
+        try{
+            const response = await customFetch.post("/bookings",{"user_id":user_id,"class_id":class_id,"day":day,"trainer_id":class_trainer_user_id,"time":class_datetime})
+            console.log(response.data)
+        }
+        catch(error){
+            console.log(error.data)
+        }
 
     }
-
-
-
   return (
     <div className="grid gap-5">
     {classes.map(allAvailableClass => {
@@ -54,10 +57,11 @@ const ClassesByDay = () => {
                 <p>Trainer: {user_firstName} {user_lastName}</p>
                 <p>Contact: {user_email}</p>
             </div>
+            {/* handles booking here */}
             <button 
                 className="btn btn-primary"
                 onClick={()=> handleBooking({user_id,class_id,day,class_trainer_user_id,class_datetime})}
-                >Book Now</button> //handle booking here.. create bookings api 
+                >Book Now</button> 
         </div>
     })}
     </div>
