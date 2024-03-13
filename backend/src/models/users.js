@@ -58,7 +58,6 @@ export const getAll = async() =>{
 }
 
 export const createUser = async (user) =>{
-    console.log(user)
     return db.query(
         "INSERT INTO users (user_email,user_password,user_role,user_phone,user_firstName,user_lastName,user_address)"
         + "VALUE (?,?,?,?,?,?,?)",

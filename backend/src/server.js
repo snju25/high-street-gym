@@ -3,6 +3,7 @@ import cors from "cors"
 import userRouter from "./routes/users.js"
 import blogRouter from "./routes/blog.js"
 import classesRouter from "./routes/classes.js"
+import bookingRouter from "./routes/bookings.js"
 
 const app = express();
 const port = 8081;
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use("/",userRouter)
 app.use("/", blogRouter)
 app.use("/classes", classesRouter)
+app.use("/bookings",bookingRouter)
 
 app.listen(port, ()=>{
     console.log(`Server is listening on http://localhost:${port}`);

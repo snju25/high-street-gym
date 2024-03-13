@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom"
 import customFetch from "../utils/axios/axios"
+import {useSelector} from "react-redux"
 
 export const loader = async({params}) =>{
     const day = params.day
@@ -14,6 +15,17 @@ export const loader = async({params}) =>{
 }
 const ClassesByDay = () => {
     const classes = useLoaderData()
+    const currentUser = useSelector(state => state.userState.user)
+    const user_id = currentUser.id
+
+    const handleBooking = ({user_id,class_id,day,trainer_id,time}) =>{
+        // create booking api here.
+        console.log("created")
+
+    }
+
+
+
   return (
     <div className="grid gap-5">
     {classes.map(allAvailableClass => {
@@ -38,8 +50,14 @@ const ClassesByDay = () => {
             <div className="mt-2 p-[10px]">
                 <p>Start Time: {class_datetime}</p>
                 <p>Duration: {activity_duration} mins</p>
+                <p>Room: {class_room_number}</p>
+                <p>Trainer: {user_firstName} {user_lastName}</p>
+                <p>Contact: {user_email}</p>
             </div>
-            <button className="btn btn-primary">Book Now</button>
+            <button 
+                className="btn btn-primary"
+                onClick={()=> handleBooking({user_id,class_id,day,class_trainer_user_id,class_datetime})}
+                >Book Now</button> //handle booking here.. create bookings api 
         </div>
     })}
     </div>
