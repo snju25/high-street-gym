@@ -35,6 +35,14 @@ export const getByDateAndActivity = async(req,res) => {
     const id = req.params.id
 
     const classes = await Classes.getByDayAndActivity(day,id)
+    if (classes.length ===  0){
+        return res.status(200).json({
+            status: 200,
+            message: "All classes on Monday with activity id",
+            classes: classes
+        })
+        
+    }
     res.status(200).json({
         status: 200,
         message: "All classes on Monday with activity id",

@@ -31,19 +31,15 @@ export const createNewClass = async(newClass) =>{
 // get classes by day and 
 export const getByDayAndActivity = async (day, activity_id) => {
     const [results] = await db.query(
-        `SELECT * FROM classes WHERE day = ? AND class_activity_id = ?`, [day, activity_id]
+        `SELECT classes.*, users.user_firstName, users.user_lastName 
+         FROM classes 
+         JOIN users ON classes.class_trainer_user_id = users.user_id
+         WHERE classes.day = ? AND classes.class_activity_id = ?`, 
+         [day, activity_id]
     );
-    return results.map((result)=>{
-        return newClass(
-            result.class_id,
-            result.class_datetime,
-            result.class_activity_id,
-            result.class_trainer_user_id,
-            result.day,
-            result.class_room_number
-        )
-    })
+    return results
 };
+
 
 getByDayAndActivity("Monday", 1).then(res=> console.log(res));
 
@@ -100,4 +96,4 @@ export const displayAllUniqueClassesByDay = async (day) => {
     `, [day]);
     return results
 }
-displayAllUniqueClassesByDay('Monday')
+// displayAllUniqueClassesByDay('Monday')

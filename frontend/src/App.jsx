@@ -15,7 +15,7 @@ import AuthRoute from "./components/AuthRoute"
 import ErrorElement from "./components/ErrorElement";
 import store from "./store";
 import ClassesByDay, {  loader as classesByDayLoader} from "./components/ClassesByDay";
-
+import {loader as createBookingLoader} from "./pages/CreateBooking"
 
 
 const router = createBrowserRouter([
@@ -56,8 +56,13 @@ const router = createBrowserRouter([
             path: ":day",
             element: <ClassesByDay />,
             loader: classesByDayLoader
-          }
+          },
         ]
+      },
+      {
+        path: "/calender/:day/:id",
+        element: <CreateBooking />,
+        loader: createBookingLoader
       },
       // Create blog post and read all blog post here............. with title.../////
       {

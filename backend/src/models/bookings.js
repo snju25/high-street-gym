@@ -27,6 +27,9 @@ export const createBooking = async(booking)=>{
         return {...booking,id:result.insertId}
     })
 }
+const book = { user_id: 1, time: "08:00:00", class_id: 12, trainer_id: 9, day: "Monday" }
+
+// createBooking(book).then(res=> console.log(res))
 
 export const getAllForOneUser = async(user_id) =>{
     const [allBookings] = await db.query("SELECT * FROM bookings WHERE booking_user_id = ?", user_id)
@@ -42,7 +45,7 @@ export const getAllForOneUser = async(user_id) =>{
         })
     
 }
-// getAllForOneUser(8).then(res=> console.log(res))
+getAllForOneUser(1).then(res=> console.log(res))
 
 
 
