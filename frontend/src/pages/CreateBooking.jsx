@@ -1,6 +1,8 @@
 const CreateBooking = () => {
   return (
-    <div>CreateBooking</div>
+    <div>
+      {/* need activity_id, activity_name, day */}
+    </div>
   )
 }
 export default CreateBooking

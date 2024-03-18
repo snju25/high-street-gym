@@ -17,8 +17,7 @@ export const loader = async({params}) =>{
 }
 const ClassesByDay = () => {
     const classes = useLoaderData()
-    const currentUser = useSelector(state => state.userState.user)
-    const user_id = currentUser.id
+    // const currentUser = useSelector(state => state.userState.user)
   return (
     <div className="grid gap-5">
     {classes.map((allAvailableClass) => {

@@ -29,7 +29,7 @@ export const createNewClass = async(newClass) =>{
 }
 
 // get classes by day and 
-const getByDayAndActivity = async (day, activity_id) => {
+export const getByDayAndActivity = async (day, activity_id) => {
     const [results] = await db.query(
         `SELECT * FROM classes WHERE day = ? AND class_activity_id = ?`, [day, activity_id]
     );
@@ -45,7 +45,7 @@ const getByDayAndActivity = async (day, activity_id) => {
     })
 };
 
-// getByDayAndActivity("Monday", 1).then(res=> console.log(res));
+getByDayAndActivity("Monday", 1).then(res=> console.log(res));
 
 
 
