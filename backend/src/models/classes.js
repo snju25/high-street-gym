@@ -93,11 +93,11 @@ export const deleteClass = async(classID) =>{
 
 export const displayAllUniqueClassesByDay = async (day) => {
     const [results] = await db.query(`
-    SELECT DISTINCT a.activity_name, a.activity_description
+    SELECT DISTINCT a.activity_id,a.activity_name, a.activity_description
     FROM classes c
     JOIN activities a ON c.class_activity_id = a.activity_id
     WHERE c.day = ?
     `, [day]);
-    console.log(results);
+    return results
 }
-// displayAllUniqueClassesByDay('Monday') 
+displayAllUniqueClassesByDay('Monday')

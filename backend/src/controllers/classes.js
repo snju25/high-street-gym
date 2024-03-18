@@ -20,3 +20,13 @@ export const getClassesByDay = async(req,res) =>{
     })
 }
 
+export const getAllUniqueActivity = async(req,res)=>{
+    const day = req.params.day
+    const uniqueClasses =  await Classes.displayAllUniqueClassesByDay(day)
+    res.status(200).json({
+        status:200,
+        message: "Unique days from different classes",
+        uniqueClasses: uniqueClasses
+    })
+}
+
