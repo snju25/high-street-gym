@@ -16,6 +16,7 @@ import ErrorElement from "./components/ErrorElement";
 import store from "./store";
 import ClassesByDay, {  loader as classesByDayLoader} from "./components/ClassesByDay";
 import {loader as createBookingLoader} from "./pages/CreateBooking"
+import {loader as bookingLoader} from "./pages/Bookings"
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
         path: "/bookings",
         element: <Bookings />,
         errorElement: <ErrorElement/>,
+        loader: bookingLoader(store)
       },
       // not sure ...............................................//
       // create booking here...................................//

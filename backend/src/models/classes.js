@@ -41,7 +41,7 @@ export const getByDayAndActivity = async (day, activity_id) => {
 };
 
 
-getByDayAndActivity("Monday", 1).then(res=> console.log(res));
+// getByDayAndActivity("Monday", 1).then(res=> console.log(res));
 
 
 

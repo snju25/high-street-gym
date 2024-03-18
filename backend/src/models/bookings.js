@@ -45,7 +45,7 @@ export const getAllForOneUser = async(user_id) =>{
         })
     
 }
-getAllForOneUser(1).then(res=> console.log(res))
+// getAllForOneUser(1).then(res=> console.log(res))
 
 
 
