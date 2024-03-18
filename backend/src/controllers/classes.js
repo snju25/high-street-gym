@@ -19,3 +19,4 @@ export const getClassesByDay = async(req,res) =>{
         class: classes
     })
 }
+

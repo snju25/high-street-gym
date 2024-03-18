@@ -1,7 +1,7 @@
 import {db} from "../database.js"
 
 
-export const booking = (id,user_id,class_id,time,day,trainer_id) =>{
+export const Booking = (id,user_id,class_id,time,day,trainer_id) =>{
     return {
         id,
         user_id,
@@ -27,5 +27,22 @@ export const createBooking = async(booking)=>{
         return {...booking,id:result.insertId}
     })
 }
+
+export const getAllForOneUser = async(user_id) =>{
+    const [allBookings] = await db.query("SELECT * FROM bookings WHERE booking_user_id = ?", user_id)
+         return allBookings.map(booking => {
+                return Booking(
+                booking.booking_id,
+                booking.booking_user_id,
+                booking.booking_class_id,
+                booking.booking_time,
+                booking.booking_day,
+                booking.booking_trainer_id,
+            )
+        })
+    
+}
+// getAllForOneUser(8).then(res=> console.log(res))
+
 
 

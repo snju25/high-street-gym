@@ -28,6 +28,25 @@ export const createNewClass = async(newClass) =>{
 
 }
 
+// get classes by day and 
+const getByDayAndActivity = async (day, activity_id) => {
+    const [results] = await db.query(
+        `SELECT * FROM classes WHERE day = ? AND class_activity_id = ?`, [day, activity_id]
+    );
+    return results.map((result)=>{
+        return newClass(
+            result.class_id,
+            result.class_datetime,
+            result.class_activity_id,
+            result.class_trainer_user_id,
+            result.day,
+            result.class_room_number
+        )
+    })
+};
+
+// getByDayAndActivity("Monday", 1).then(res=> console.log(res));
+
 
 
 export const getClassesByDay = async (day) => {
@@ -70,3 +89,15 @@ export const deleteClass = async(classID) =>{
         "DELETE FROM classes WHERE class_id = ?", classID
     )
 }
+
+
+export const displayAllUniqueClassesByDay = async (day) => {
+    const [results] = await db.query(`
+    SELECT DISTINCT a.activity_name, a.activity_description
+    FROM classes c
+    JOIN activities a ON c.class_activity_id = a.activity_id
+    WHERE c.day = ?
+    `, [day]);
+    console.log(results);
+}
+// displayAllUniqueClassesByDay('Monday') 
