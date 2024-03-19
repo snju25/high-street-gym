@@ -19,3 +19,13 @@ export const getAllBookingsFromAUser = async(req,res)=>{
         bookings: bookings
     })
 }
+export const deleteBookingByID = async(req,res)=>{
+    const id = req.params.id
+    
+    Bookings.deleteBookingById(id).then(
+        res.status(200).json({
+            status:200,
+            message: "Deleted Booking",
+        })
+    )
+}

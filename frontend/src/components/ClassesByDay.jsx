@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router-dom"
+import { Link, useLoaderData, useNavigate } from "react-router-dom"
 import customFetch from "../utils/axios/axios"
 import {useSelector} from "react-redux"
 
@@ -8,7 +8,7 @@ export const loader = async({params}) =>{
     try{
         const response = await customFetch(`/classes/unique/${day}`)
         const uniqueClasses = response.data.uniqueClasses
-        return uniqueClasses
+        return {uniqueClasses,day}
         
     }catch(err){
         return err
@@ -16,7 +16,7 @@ export const loader = async({params}) =>{
 
 }
 const ClassesByDay = () => {
-    const classes = useLoaderData()
+    const {uniqueClasses:classes,day} = useLoaderData()
     // const currentUser = useSelector(state => state.userState.user)
   return (
     <div className="grid gap-5">
@@ -31,9 +31,10 @@ const ClassesByDay = () => {
                 <h1 className="text-2xl">{activity_name}</h1>
                 <p>{activity_description}</p>
             </div>
-            <button 
+            <Link
+                to={`/calender/${day}/${activity_id}`}
                 className="btn btn-primary"
-                >Book Now</button> 
+                >Book Now</Link> 
         </div>
     })}
 
