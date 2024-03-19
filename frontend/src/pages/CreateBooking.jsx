@@ -25,6 +25,8 @@ const CreateBooking = () => {
   // State to hold the selected time and class
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedClass, setSelectedClass] = useState(null);
+
+  // gets the id from react redux userState
   const {id} = useSelector(state => state.userState.user)
 
   // Group classes by time
@@ -38,32 +40,33 @@ const CreateBooking = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const bookingData = {user_id:id,time:selectedTime, class_id: selectedClass.class_id, trainer_id: selectedClass.class_trainer_user_id, day: selectedClass.day}
-    console.log(bookingData)
-    // Further processing or API call to create booking
+  
     try{
       const response = await customFetch.post("/bookings/",bookingData)
       toast.success(response.data.message || "Created Booking")
-      redirect("/bookings")
+      return navigate("/bookings")
 
     }catch(err){
-      console.log(err)
+      toast.error("Error creating booking")
+      return err
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="time">Select Time:</label>
-      <select id="time" value={selectedTime} onChange={e => setSelectedTime(e.target.value)}>
-        <option value="">Select a time</option>
+    <form onSubmit={handleSubmit} className="">
+      <h1 className="text-2xl font-bold mb-5">Create Booking</h1>
+      <label htmlFor="time" className="mr-5 text-xl font-semibold">Select Time:</label>
+      <select id="time" value={selectedTime} onChange={e => setSelectedTime(e.target.value)} className="select select-bordered w-full max-w-xs">
+        <option  disabled value="">Select a time</option>
         {Object.keys(classesByTime).map(time => (
           <option key={time} value={time}>{time}</option>
         ))}
       </select>
 
       {selectedTime && (
-        <>
-          <label htmlFor="trainer">Select Trainer:</label>
-          <select id="trainer" value={selectedClass?.class_id || ''} onChange={e => setSelectedClass(classesByTime[selectedTime].find(c => c.class_id === parseInt(e.target.value)))}>
+        <div className="mt-5">
+          <label htmlFor="trainer" className="mr-5 text-xl font-semibold">Select Trainer:</label>
+          <select className="select select-bordered w-full max-w-xs" id="trainer" value={selectedClass?.class_id || ''} onChange={e => setSelectedClass(classesByTime[selectedTime].find(c => c.class_id === parseInt(e.target.value)))}>
             <option value="">Select a trainer</option>
             {classesByTime[selectedTime].map(classInfo => (
               <option key={classInfo.class_id} value={classInfo.class_id}>
@@ -71,10 +74,11 @@ const CreateBooking = () => {
               </option>
             ))}
           </select>
-        </>
+        </div>
       )}
-
-      <button type="submit">Create Booking</button>
+      <div className="mt-5">
+        <button type="submit" disabled={selectedClass? false: true} className="btn btn-primary">Create Booking</button>
+      </div>
     </form>
   );
 };
