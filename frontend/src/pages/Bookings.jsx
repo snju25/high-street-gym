@@ -33,7 +33,7 @@ const Bookings = () => {
     <section className="flex flex-col gap-5">
     { bookings.map(booking=>{
       const { bookingId, userId, classId, time, day, trainerId, activityName, roomNumber, trainerFirstName, trainerLastName } = booking
-      return <div key={bookingId} className="grid grid-cols-3 place-items-center  shadow min-h-16 card p-4">
+      return <div key={bookingId} className="grid gap-2 md:gap-0 md:grid-cols-3 md:place-items-center  shadow min-h-16 card p-4">
         <div>
           <p>Class: {activityName}</p>
           <p>Room Number: {roomNumber}</p>

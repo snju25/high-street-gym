@@ -35,6 +35,7 @@ const CreateBooking = () => {
     acc[curr.class_datetime].push(curr);
     return acc;
   }, {});
+  console.log(classesByTime)
 
   // Handler for form submission
   const handleSubmit = async (e) => {

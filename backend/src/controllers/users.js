@@ -2,6 +2,7 @@ import { db } from "../database.js"
 import * as Users from "../models/users.js"
 import { v4 as uuid4 } from "uuid"
 import bcrypt from "bcryptjs"
+import xml2js from "xml2js"
 
 export const getAllUsers = async (req,res)=>{
     const users = await Users.getAll()
@@ -154,4 +155,47 @@ export const logoutUser = async(req, res) => {
                 error
             })
         })
+}
+
+export const createNewUsers = async(req,res)=>{
+    if(req.files && req.files["xml-file"]){
+        const XMLFile = req.files["xml-file"]
+        const file_text = XMLFile.data.toString()
+
+        // set up xml parser
+        const parser = new xml2js.Parser();
+        parser.parseStringPromise(file_text)
+            .then(data => {
+                const user = data["User"]
+                const userAttributes = user["$"]
+                const operation = userAttributes["operation"]
+                const userData = user["Member"][0]
+            })
+            if(operation == "insert"){
+                Promise.all(userData.map(user =>{
+                    const userModel = Users.newUser(
+                        null,
+                        user.Email.toString(),
+                        user.Password.toString(),
+                        user.Role.toString(),
+                        user.Phone.toString(),
+                        user.FirstName.toString(),
+                        user.LastName.toString(),
+                        user.Address.toString(),
+                        null
+                    )
+                    return Users.createUser(userModel)
+                })).then(result => {
+                    res.status(200).json({
+                        status: 200,
+                        message: "XML Upload insert successfully"
+                    })
+                }).catch(error =>{
+                    res.status(500).json({
+                        status: 500,
+                        message: "XML upload failed on database operation - insert"
+                    })
+                })
+            }
+    }
 }

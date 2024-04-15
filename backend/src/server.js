@@ -4,6 +4,7 @@ import userRouter from "./routes/users.js"
 import blogRouter from "./routes/blog.js"
 import classesRouter from "./routes/classes.js"
 import bookingRouter from "./routes/bookings.js"
+import fileUpload from "express-fileupload"
 
 const app = express();
 const port = 8081;
@@ -16,6 +17,9 @@ app.use(cors({
 
 // json parsing middleware
 app.use(express.json())
+app.use(fileUpload({
+    limits: { fileSize: 50*1024*1024},
+}))
 
 
 app.use("/",userRouter)
