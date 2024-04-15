@@ -8,6 +8,6 @@ router.post("/register",registerUser)
 router.post("/login",loginUser)
 router.post("/logout",logoutUser)
 router.patch("/profile/:id",updateUser)
-router.post("/importXML",createNewUsers)
+router.post("/importXML/user",createNewUsers)
 
 export default router

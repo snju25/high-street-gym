@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import {useSelector} from "react-redux"
 import customFetch from "../utils/axios/axios"
+import {toast} from "react-toastify"
 const ImportXML =  ({ onUploadSuccess, uploadURL, disabled = false })  => {
   const user = useSelector(state => state.userState.user)
   const [status, setStatus] = useState("")
@@ -19,19 +20,23 @@ const ImportXML =  ({ onUploadSuccess, uploadURL, disabled = false })  => {
     // we have the form data object with the file inside, 
     // now we need to use fetch to send it to the backend
     try{
-      const response = await customFetch.post("/importXML",formData, {
+      const response = await customFetch.post(uploadURL,formData, {
         headers: {
           'X-AUTH-KEY': user.authenticationKey
         }
       })
-      console.log(response)
+      toast.success(response.data.message || "Successfully added")
+      setStatus(response.data.message || "Successfully added")
+      uploadInputRef.current.value = null
 
-
+      if(typeof onUploadSuccess == "function"){
+        onUploadSuccess()
+      }
 
     }
     catch(error){
-      console.log(error)
-
+      toast.error(error?.response?.data?.message)
+      setStatus(error?.response?.data?.message)
     }
    
   }
