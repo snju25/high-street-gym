@@ -157,45 +157,62 @@ export const logoutUser = async(req, res) => {
         })
 }
 
-export const createNewUsers = async(req,res)=>{
-    if(req.files && req.files["xml-file"]){
-        const XMLFile = req.files["xml-file"]
-        const file_text = XMLFile.data.toString()
-
-        // set up xml parser
+export const createNewUsers = async (req, res) => {
+    try {
+        if (!req.files || !req.files["xml-file"]) {
+            return res.status(400).json({
+                status: 400,
+                message: "No files selected"
+            });
+        }
+        const XMLFile = req.files["xml-file"];
+        const file_text = XMLFile.data.toString();
+        
+        // Set up XML parser
         const parser = new xml2js.Parser();
-        parser.parseStringPromise(file_text)
-            .then(data => {
-                const user = data["User"]
-                const userAttributes = user["$"]
-                const operation = userAttributes["operation"]
-                const userData = user["Member"][0]
-            })
-            if(operation == "insert"){
-                Promise.all(userData.map(user =>{
-                    const userModel = Users.newUser(
-                        null,
-                        user.Email.toString(),
-                        user.Password.toString(),
-                        user.Role.toString(),
-                        user.Phone.toString(),
-                        user.FirstName.toString(),
-                        user.LastName.toString(),
-                        user.Address.toString(),
-                        null
-                    )
-                    return Users.createUser(userModel)
-                })).then(result => {
-                    res.status(200).json({
-                        status: 200,
-                        message: "XML Upload insert successfully"
-                    })
-                }).catch(error =>{
-                    res.status(500).json({
-                        status: 500,
-                        message: "XML upload failed on database operation - insert"
-                    })
-                })
-            }
+        const data = await parser.parseStringPromise(file_text);
+        
+        const user = data["User"];
+        if (!user || !user["$"] || !user["$"]["operation"]) {
+            return res.status(400).json({
+                status: 400,
+                message: "Invalid XML format"
+            });
+        }
+        
+        const operation = user["$"]["operation"];
+        const userData = user["Member"][0];
+        
+        if (operation === "insert") {
+            const userModel = Users.newUser(
+                null,
+                userData.Email.toString(),
+                userData.Password.toString(),
+                userData.Role.toString(),
+                userData.Phone.toString(),
+                userData.FirstName.toString(),
+                userData.LastName.toString(),
+                userData.Address.toString(),
+                null
+            );
+            
+            await Users.createUser(userModel);
+            
+            return res.status(200).json({
+                status: 200,
+                message: "XML Upload insert successfully"
+            });
+        }
+        
+        return res.status(400).json({
+            status: 400,
+            message: "Unsupported operation"
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "XML upload failed on database operation",
+            error
+        });
     }
-}
+};
