@@ -1,12 +1,13 @@
 import express from "express"
 import { editBlog,getAllBlogs,createABlog,getById,deleteBlogPost } from "../controllers/blog.js"
+import auth from "../middleware/auth.js"
 
 const router = express.Router()
 
-router.get("/allBlogs", getAllBlogs)
-router.get("/blog/:id", getById)
-router.post("/createBlog", createABlog)
-router.patch("/blog/:id",editBlog)
-router.delete("/blog/:id",deleteBlogPost)
+router.get("/allBlogs", auth(["manager","member","trainer"]), getAllBlogs)
+router.get("/blog/:id",auth(["manager","member","trainer"]), getById)
+router.post("/createBlog",auth(["manager","member","trainer"]), createABlog)
+router.patch("/blog/:id",auth(["manager","member","trainer"]),editBlog)
+router.delete("/blog/:id",auth(["manager","member","trainer"]), deleteBlogPost)
 export default router
 

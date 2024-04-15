@@ -25,9 +25,14 @@ export const action = (store) => async ({request}) => {
 
 
 // get all post loader
-export const loader = async ({request}) =>{
+export const loader = (store) => async ({request}) =>{
+  const {authenticationKey} = store.getState().userState.user
   try{
-    const response = await customFetch("/allBlogs")
+    const response = await customFetch("/allBlogs",{
+      headers : {
+        "X-AUTH-KEY": authenticationKey
+      }
+    })
     const allBlogPost = response.data
     return {allBlogPost: allBlogPost?.allBlogs}
   }
@@ -46,7 +51,11 @@ const Blog = () => {
 
   const handleDelete = async (post_id) => {
     try {
-        const response = await customFetch.delete(`/blog/${post_id}`);
+        const response = await customFetch.delete(`/blog/${post_id}`,{
+          headers : {
+            "X-AUTH-KEY": user.authenticationKey
+          }
+        });
         toast.success(response.data.message || "Post deleted successfully");
         navigate(0)
     } catch (error) {

@@ -4,12 +4,17 @@ import { useState } from "react"
 import {toast} from "react-toastify"
 
 
-export const action = async({request,params})=>{
+export const action = (store) => async({request,params})=>{
   const formData = await request.formData()
   const title = formData.get("title");
   const content = formData.get("content");
+  const {authenticationKey} = store.getState().userState.user
   try{
-    const response = await customFetch.patch(`/blog/${params.id}`,{title,content})
+    const response = await customFetch.patch(`/blog/${params.id}`,{title,content},{
+      headers : {
+        "X-AUTH-KEY": authenticationKey
+      }
+    })
     toast.success(response.data.message)
     return redirect("/blog")
   }
@@ -18,9 +23,14 @@ export const action = async({request,params})=>{
     return null
   }
 }
-export const loader = async({params})=>{
+export const loader = (store)=> async({params})=>{
+  const {authenticationKey} = store.getState().userState.user
   try{
-    const response = await customFetch(`/blog/${params.id}`)
+    const response = await customFetch(`/blog/${params.id}`,{
+      headers : {
+        "X-AUTH-KEY": authenticationKey
+      }
+    })
     return response.data.post
   }
   catch(err){

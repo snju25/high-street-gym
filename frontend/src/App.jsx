@@ -57,14 +57,14 @@ const router = createBrowserRouter([
           {
             path: ":day",
             element: <ClassesByDay />,
-            loader: classesByDayLoader
+            loader: classesByDayLoader(store)
           },
         ]
       },
       {
         path: "/calender/:day/:id",
         element: <CreateBooking />,
-        loader: createBookingLoader
+        loader: createBookingLoader(store)
       },
       // Create blog post and read all blog post here............. with title.../////
       {
@@ -72,15 +72,15 @@ const router = createBrowserRouter([
         element: <Blog />,
         errorElement:<ErrorElement/>,
         action: blogAction(store),
-        loader: blogLoader,
+        loader: blogLoader(store),
       },
       // Single blog post read page............//
       {
         path: "/blog/:id",
         element: <SingleBlogPage />,
         errorElement:<ErrorElement/>,
-        loader: singleBlogLoader,
-        action: singleBlogAction,
+        loader: singleBlogLoader(store),
+        action: singleBlogAction(store),
       },
       {
         path: "/importXML",
