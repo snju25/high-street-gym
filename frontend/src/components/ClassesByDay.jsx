@@ -3,7 +3,7 @@ import customFetch from "../utils/axios/axios"
 import {useSelector} from "react-redux"
 
 
-export const loader = async({params}) =>{
+export const loader = (store) => async({params}) =>{
     const day = params.day
     try{
         const response = await customFetch(`/classes/unique/${day}`)

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import {toast} from "react-toastify"
 
-export const loader = async({params})=>{
+export const loader = (store) => async({params}) =>{
   const {day,id} = params
   try{
     const response = await customFetch(`classes/createBooking/${day}/${id}`)
@@ -12,6 +12,7 @@ export const loader = async({params})=>{
     return availableClasses
 
   }catch(err){
+    console.log(err)
     return err
   }
 
