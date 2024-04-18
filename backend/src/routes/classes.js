@@ -1,10 +1,10 @@
 import {Router} from "express"
-import { getAllUniqueActivity, getByDateAndActivity, getClassesByDay } from "../controllers/classes.js"
+import { getAllUniqueActivity, getByDateAndActivity, getClassesByDate,getAllUniqueClassEveryDayForTheWeek } from "../controllers/classes.js"
 
 const classesRouter = Router()
 
-classesRouter.get("/:day", getClassesByDay)
-classesRouter.get("/unique/:day",getAllUniqueActivity )
-classesRouter.get("/createBooking/:day/:id",getByDateAndActivity )
+classesRouter.get("/getAllClasses/:date", getClassesByDate) // get all classes from a particular date
+classesRouter.get("/calender",getAllUniqueClassEveryDayForTheWeek ) // get all unique classes for 1 week requires query params
+classesRouter.get("/createBooking/:date/:id",getByDateAndActivity ) // get by date and activity id for a certain day.
 
 export default classesRouter

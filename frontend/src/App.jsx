@@ -4,7 +4,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Bookings, Calender, Dashboard, HomeLayout, ImportXML, Login, Profile, Register,Blog,Error,CreateBooking, SingleBlogPage} from "./pages";
+import { Bookings, Calender, Dashboard, HomeLayout, ImportXML, Login, Profile, Register,Blog,Error,SingleBlogPage} from "./pages";
 import {action as loginAction } from "./pages/Login"
 import {action as registerAction } from "./pages/Register"
 import { action as blogAction } from "./pages/Blog"
@@ -14,9 +14,9 @@ import {loader as blogLoader } from "./pages/Blog"
 import AuthRoute from "./components/AuthRoute"
 import ErrorElement from "./components/ErrorElement";
 import store from "./store";
-import ClassesByDay, {  loader as classesByDayLoader} from "./components/ClassesByDay";
-import {loader as createBookingLoader} from "./pages/CreateBooking"
 import {loader as bookingLoader} from "./pages/Bookings"
+import CreateBooking, { loader as createBookingLoader } from "./pages/CreateBooking";
+
 
 
 const router = createBrowserRouter([
@@ -37,34 +37,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorElement/>,
         loader: bookingLoader(store)
       },
-      // not sure ...............................................//
-      // create booking here...................................//
-      {
-        path:"/createBooking",
-        element:<CreateBooking/>,
-        errorElement:<ErrorElement/>
-      },
       // display classes here........................//
       {
         path: "/calender",
         element: <Calender />,
         errorElement: <ErrorElement/>,
-        children : [
-          {
-            index: true,
-            element: <Navigate to="/calender/Monday" replace />
-          },
-          {
-            path: ":day",
-            element: <ClassesByDay />,
-            loader: classesByDayLoader(store)
-          },
-        ]
-      },
-      {
-        path: "/calender/:day/:id",
-        element: <CreateBooking />,
-        loader: createBookingLoader(store)
+      
       },
       // Create blog post and read all blog post here............. with title.../////
       {
@@ -91,6 +69,12 @@ const router = createBrowserRouter([
         path:"/profile",
         element:<Profile />,
         errorElement: <ErrorElement/>
+      },
+      {
+        path:"/createBooking/:date/:id",
+        element: <CreateBooking/>,
+        errorElement: <ErrorElement/>,
+        loader: createBookingLoader(store)
       }
     ]
 

@@ -77,7 +77,7 @@ const Blog = () => {
         </div>
       </section>
       <section className="grid gap-3 place-items-center">
-          {allBlogPost.map((blog)=>{
+          {allBlogPost?.map((blog)=>{
             const {post_id, datetime, title, firstName, lastName, user_id,content} = blog
             return <div key={post_id} className="card card-compact w-[100%] bg-base-100 shadow-xl">
             <div className="card-body">

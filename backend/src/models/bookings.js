@@ -1,25 +1,25 @@
 import {db} from "../database.js"
 
 
-export const Booking = (id,user_id,class_id,time,day,trainer_id) =>{
+export const Booking = (id,user_id,class_id,time,date,trainer_id) =>{
     return {
         id,
         user_id,
         class_id,
         time,
-        day,
+        date,
         trainer_id
     }
 }
 
 export const createBooking = async(booking)=>{
     return db.query(
-        "INSERT INTO bookings (booking_user_id,booking_class_id, booking_day,booking_trainer_id,booking_time)" +
+        "INSERT INTO bookings (booking_user_id,booking_class_id, booking_date,booking_trainer_id,booking_time)" +
         "VALUES (?,?,?,?,?)",
         [
             booking.user_id,
             booking.class_id,
-            booking.day,
+            booking.date,
             booking.trainer_id,
             booking.time
         ]
@@ -27,7 +27,7 @@ export const createBooking = async(booking)=>{
         return {...booking,id:result.insertId}
     })
 }
-const book = { user_id: 1, time: "08:00:00", class_id: 12, trainer_id: 9, day: "Monday" }
+const book = { user_id: 1, time: "08:00:00", class_id: 12, trainer_id: 9, date: "2024-04-15" }
 
 // createBooking(book).then(res=> console.log(res))
 
@@ -38,7 +38,7 @@ export const getAllForOneUser = async (user_id) => {
             bookings.booking_user_id,
             bookings.booking_class_id,
             bookings.booking_time,
-            bookings.booking_day,
+            bookings.booking_date,
             bookings.booking_trainer_id,
             activities.activity_name,
             classes.class_room_number,
@@ -58,7 +58,7 @@ export const getAllForOneUser = async (user_id) => {
             userId: booking.booking_user_id,
             classId: booking.booking_class_id,
             time: booking.booking_time,
-            day: booking.booking_day,
+            date: booking.booking_date,
             trainerId: booking.booking_trainer_id,
             activityName: booking.activity_name,
             roomNumber: booking.class_room_number,

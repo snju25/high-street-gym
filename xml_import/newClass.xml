@@ -1,0 +1,2 @@
+<!--  add a new class  -->
+<!-- create a loop that will look up the name in the foreign key table then retrive id from that name and insert it into the class_activity_id -->

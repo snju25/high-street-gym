@@ -5,9 +5,9 @@ import { useSelector } from "react-redux"
 import {toast} from "react-toastify"
 
 export const loader = (store) => async({params}) =>{
-  const {day,id} = params
+  const {date,id} = params
   try{
-    const response = await customFetch(`classes/createBooking/${day}/${id}`)
+    const response = await customFetch(`classes/createBooking/${date}/${id}`)
     const availableClasses = response.data.classes
     return availableClasses
 
@@ -21,6 +21,7 @@ export const loader = (store) => async({params}) =>{
 
 const CreateBooking = () => {
   const classes = useLoaderData();
+  console.log(classes)
   const navigate = useNavigate()
 
   // State to hold the selected time and class
@@ -41,7 +42,7 @@ const CreateBooking = () => {
   // Handler for form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const bookingData = {user_id:id,time:selectedTime, class_id: selectedClass.class_id, trainer_id: selectedClass.class_trainer_user_id, day: selectedClass.day}
+    const bookingData = {user_id:id,time:selectedTime, class_id: selectedClass.class_id, trainer_id: selectedClass.class_trainer_user_id, date: new Date(selectedClass.date).toLocaleDateString('en-CA').split('/').join('-')}
   
     try{
       const response = await customFetch.post("/bookings/",bookingData)
@@ -86,7 +87,3 @@ const CreateBooking = () => {
 };
 
 export default CreateBooking;
-
-
-
-
