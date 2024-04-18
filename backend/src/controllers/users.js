@@ -158,61 +158,63 @@ export const logoutUser = async(req, res) => {
 }
 
 export const createNewUsers = async (req, res) => {
-    try {
-        if (!req.files || !req.files["xml-file"]) {
-            return res.status(400).json({
-                status: 400,
-                message: "No files selected"
-            });
-        }
-        const XMLFile = req.files["xml-file"];
-        const file_text = XMLFile.data.toString();
-        
+    if (req.files && req.files["xml-file"]) {
+        // Access the XML file as a string
+        const XMLFile = req.files["xml-file"]
+        const file_text = XMLFile.data.toString()
+
         // Set up XML parser
         const parser = new xml2js.Parser();
-        const data = await parser.parseStringPromise(file_text);
-        
-        const user = data["User"];
-        if (!user || !user["$"] || !user["$"]["operation"]) {
-            return res.status(400).json({
-                status: 400,
-                message: "Invalid XML format"
-            });
+        try {
+            const data = await parser.parseStringPromise(file_text);
+            const userUpload = data["user-upload"]
+            const userUploadAttributes = userUpload["$"]
+            const operation = userUploadAttributes["operation"]
+            // Slightly painful indexing to reach nested children
+            const usersData = userUpload["users"][0]["user"]
+            if (operation === "insert") {
+                Promise.all(usersData.map((userData)=>{
+                    const userModel = Users.newUser(
+                        null,
+                        userData.email.toString(),
+                        userData.password.toString(),
+                        userData.role.toString(),
+                        userData.phone.toString(),
+                        userData.firstName.toString(),
+                        userData.lastName.toString(),
+                        userData.address.toString(),
+                        null
+                    );
+                    return Users.createUser(userModel)
+                })).then(result=> {
+                    res.status(200).json({
+                        status: 200,
+                        message: "XML Upload insert successfully"
+                    });
+                }).catch(error =>{
+                    res.status(400).json({
+                        status: 400,
+                        message: "Unsupported operation"
+                    });     
+                })
+            } else {
+                res.status(400).json({
+                    status: 400,
+                    message: "XML Contains invalid operation attribute value",
+                })
+            }
+        } catch (error) {
+            res.status(500).json({
+                status: 500,
+                message: "Error parsing XML - " + error,
+            })
         }
-        
-        const operation = user["$"]["operation"];
-        const userData = user["Member"][0];
-        
-        if (operation === "insert") {
-            const userModel = Users.newUser(
-                null,
-                userData.Email.toString(),
-                userData.Password.toString(),
-                userData.Role.toString(),
-                userData.Phone.toString(),
-                userData.FirstName.toString(),
-                userData.LastName.toString(),
-                userData.Address.toString(),
-                null
-            );
-            
-            await Users.createUser(userModel);
-            
-            return res.status(200).json({
-                status: 200,
-                message: "XML Upload insert successfully"
-            });
-        }
-        
-        return res.status(400).json({
+    }
+    else {
+        res.status(400).json({
             status: 400,
-            message: "Unsupported operation"
-        });
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            message: "XML upload failed on database operation",
-            error
-        });
+            message: "No file selected",
+        })
     }
 };
+

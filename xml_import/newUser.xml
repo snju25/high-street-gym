@@ -1,28 +1,41 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE User [
-    <!ELEMENT User (Member) >
-    <!ATTLIST User operation (insert) "insert">
-    <!ELEMENT Member (Email,Password,Role,Phone,FirstName,LastName,Address,AuthenticationKey?) >
-    <!ELEMENT FirstName (#PCDATA) >
-    <!ELEMENT LastName (#PCDATA) >
-    <!ELEMENT Email (#PCDATA) >
-    <!ELEMENT Password (#PCDATA) >
-    <!ELEMENT Role (#PCDATA) >
-    <!ELEMENT Phone (#PCDATA) >
-    <!ELEMENT Address (#PCDATA) >
-    <!ELEMENT AuthenticationKey (#PCDATA) >
+<!DOCTYPE user-upload [
+    <!ELEMENT user-upload (users) >
+    <!ATTLIST user-upload operation (insert) "insert">
+    <!ELEMENT users (user+)>
+    <!ELEMENT user (email,password,role,phone,firstName,lastName,address,authenticationKey?) >
+    <!ELEMENT firstName (#PCDATA) >
+    <!ELEMENT lastName (#PCDATA) >
+    <!ELEMENT email (#PCDATA) >
+    <!ELEMENT password (#PCDATA) >
+    <!ELEMENT role (#PCDATA) >
+    <!ELEMENT phone (#PCDATA) >
+    <!ELEMENT address (#PCDATA) >
+    <!ELEMENT authenticationKey (#PCDATA) >
     
 ]>
-<User operation="insert">
-    <Member>
-        <Email>user@srv.com</Email>
-        <Password>1234</Password>
-        <Role>1234</Role>
-        <Phone>1234</Phone>
-        <FirstName>1234</FirstName>
-        <LastName>1234</LastName>
-        <Address>1234</Address>
-        <AuthenticationKey>1234</AuthenticationKey>
-    </Member>
-</User>
+<user-upload operation="insert">
+    <users>
+        <user>
+            <email>user123@srv.com</email>
+            <password>1234</password>
+            <role>1234</role>
+            <phone>1234</phone>
+            <firstName>1234</firstName>
+            <lastName>1234</lastName>
+            <address>1234</address>
+            <authenticationKey></authenticationKey>
+        </user>
+             <user>
+            <email>user1123@srv.com</email>
+            <password>1234</password>
+            <role>1234</role>
+            <phone>1234</phone>
+            <firstName>1234</firstName>
+            <lastName>1234</lastName>
+            <address>1234</address>
+            <authenticationKey></authenticationKey>
+        </user>
+    </users>
+</user-upload>
