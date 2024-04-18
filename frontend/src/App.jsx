@@ -25,11 +25,6 @@ const router = createBrowserRouter([
     element: <HomeLayout />,
     errorElement: <Error />,
     children: [
-      {
-        index: true,
-        element: <AuthRoute><Dashboard /></AuthRoute>,
-        errorElement: <ErrorElement/>
-      },
       // read and delete the bookings here ..............//
       {
         path: "/bookings",
@@ -39,7 +34,7 @@ const router = createBrowserRouter([
       },
       // display classes here........................//
       {
-        path: "/calender",
+        index: true,
         element: <Calender />,
         errorElement: <ErrorElement/>,
       
