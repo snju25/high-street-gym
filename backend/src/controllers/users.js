@@ -172,6 +172,7 @@ export const createNewUsers = async (req, res) => {
             const operation = userUploadAttributes["operation"]
             // Slightly painful indexing to reach nested children
             const usersData = userUpload["users"][0]["user"]
+            
             if (operation === "insert") {
                 Promise.all(usersData.map((userData)=>{
                     const userModel = Users.newUser(
@@ -185,7 +186,17 @@ export const createNewUsers = async (req, res) => {
                         userData.address.toString(),
                         null
                     );
-                    return Users.createUser(userModel)
+                    // Check if a user with that email exists
+                     Users.getByEmail(userModel.email).then(user => {
+                        if (user) {
+                            // If a matching user object is found, skip insertion
+                            return null
+                        } else {
+                            // If no matching user object is found, insert the user
+                            return Users.create(userModel)
+                        }
+                    })
+                    
                 })).then(result=> {
                     res.status(200).json({
                         status: 200,

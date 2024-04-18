@@ -41,7 +41,7 @@ const Calendar = () => {
       console.error("Error fetching classes:", err);
     }
   };
-  console.log(classes)
+  // console.log(classes)
 
   useEffect(() => {
     fetchClassesForWeek();

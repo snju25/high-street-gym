@@ -1,6 +1,6 @@
 import {db} from "../database.js"
 
-export const newClass = (id,time,activity_id,trainer_id,day,room_number) =>{
+export const newClass = (id,time,activity_id,trainer_id,date,room_number) =>{
     return {
         id,
         time,
@@ -14,12 +14,12 @@ export const newClass = (id,time,activity_id,trainer_id,day,room_number) =>{
 
 export const createNewClass = async(newClass) =>{
     return db.query(
-     `INSERT INTO classes (class_datetime, class_activity_id, class_trainer_user_id, day, class_room_number) VALUES (?, ?, ?, ?, ?)`,
+     `INSERT INTO classes (class_datetime, class_activity_id, class_trainer_user_id, date, class_room_number) VALUES (?, ?, ?, ?, ?)`,
         [
             newClass.time,
             newClass.activity_id,
             newClass.trainer_id,
-            newClass.day,
+            newClass.date,
             newClass.room_number
         ]
     ).then(([result])=> {
@@ -28,7 +28,7 @@ export const createNewClass = async(newClass) =>{
 
 }
 
-// get classes by day and 
+// get classes by date and 
 export const getByDateAndActivity = async (date, activity_id) => {
     const [results] = await db.query(
         `SELECT classes.*, users.user_firstName, users.user_lastName 
@@ -66,14 +66,14 @@ export const updateClasses = async (updateClass) =>{
         + "class_datetime = ?, "
         + "class_activity_id = ?, "
         + "class_trainer_user_id = ?, "
-        + "day = ?, "
+        + "date = ?, "
         + "class_room_number = ? "
         + "WHERE class_id = ?",
         [
             updateClass.dateime,
             updateClass.activity_id,
             updateClass.trainer_id,
-            updateClass.day,
+            updateClass.date,
             updateClass.room_number,
             updateClass.id
         ]
@@ -109,6 +109,7 @@ export const displayAllUniqueClassesForWeek = async (weekStartDate, weekEndDate)
         ORDER BY c.date
     `, [weekStartDate, weekEndDate]);
 
+
     return results.reduce((classesByDate, classInfo) => {
         const { date, ...classData } = classInfo;
         if (!classesByDate[date]) {
@@ -127,6 +128,34 @@ export const displayAllUniqueClassesForWeek = async (weekStartDate, weekEndDate)
 //     .then(result => console.log(result))
 //     .catch(error => console.error('Error fetching classes for the week:', error));
 
+
+// model to find if a class already exist 
+// model to find if a class already exists
+export const classAlreadyExists = async (data) => {
+    const { activity_id, trainer_id, time, date } = data;
+
+    try {
+        const [rows] = await db.query(`
+            SELECT *
+            FROM classes
+            WHERE class_activity_id = ? AND class_trainer_user_id = ? AND class_datetime = ? AND date = ?
+        `, [activity_id, trainer_id, time, date]);
+
+        return rows.length > 0; // Returns true if class exists, false otherwise
+    } catch (error) {
+        console.error("Error checking if class exists:", error);
+        throw error;
+    }
+};
+
+// classAlreadyExists(
+//     {
+//         activity_id: "1", 
+//         trainer_id: "1", 
+//         time: "08:00:00" , 
+//         date : "2024-04-15"
+//     }
+// ).then(res=> console.log(res))
 
 
 

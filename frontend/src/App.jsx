@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/importXML",
-        element: <ImportXML uploadURL="/importXML/user" />,
+        element: <ImportXML uploadURL="/importXML" />,
         errorElement: <ErrorElement/>
       },
       {
