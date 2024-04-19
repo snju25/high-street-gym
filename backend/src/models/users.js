@@ -75,6 +75,7 @@ export const createUser = async (user) =>{
     })
 }
 
+
 export const getByEmail = async (email) =>{
     const [userResults] = await db.query(
         "SELECT * FROM users WHERE user_email = ?", email
@@ -99,6 +100,18 @@ export const getByEmail = async (email) =>{
         return Promise.reject("no results found")
     }
 }
+
+export const getByEmail2 = async (email) =>{
+    const [userResults] = await db.query(
+        "SELECT * FROM users WHERE user_email = ?", email
+    )
+    // userResults return an array and we need an object to work with here.
+    return userResults
+}
+// getByEmail2("admin1@gmail.com").then(res=> console.log(res))
+
+
+
 
 export const getByID = async (userID) =>{
     const [userResults] = await db.query(

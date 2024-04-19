@@ -109,7 +109,7 @@ export const displayAllUniqueClassesForWeek = async (weekStartDate, weekEndDate)
         ORDER BY c.date
     `, [weekStartDate, weekEndDate]);
 
-
+    // to group results by dates as key and array of classes as their values
     return results.reduce((classesByDate, classInfo) => {
         const { date, ...classData } = classInfo;
         if (!classesByDate[date]) {

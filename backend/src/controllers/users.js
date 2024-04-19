@@ -174,7 +174,7 @@ export const createNewUsers = async (req, res) => {
             const usersData = userUpload["users"][0]["user"]
             
             if (operation === "insert") {
-                Promise.all(usersData.map((userData)=>{
+                Promise.all(usersData.map(async (userData)=>{
                     const userModel = Users.newUser(
                         null,
                         userData.email.toString(),
@@ -186,17 +186,20 @@ export const createNewUsers = async (req, res) => {
                         userData.address.toString(),
                         null
                     );
-                    // Check if a user with that email exists
-                     Users.getByEmail(userModel.email).then(user => {
-                        if (user) {
-                            // If a matching user object is found, skip insertion
+                    console.log(userModel)
+                    try{
+                        const userExist = await Users.getByEmail2(userModel.email)
+                        console.log(userExist)
+                        if(userExist.length > 0){
                             return null
-                        } else {
-                            // If no matching user object is found, insert the user
-                            return Users.create(userModel)
-                        }
-                    })
-                    
+                        } 
+                        const createUser = await  Users.createUser(userModel)
+                        return createUser
+
+                    }catch(err){
+                        return err;
+                    }
+                    // Check if a user with that email exists
                 })).then(result=> {
                     res.status(200).json({
                         status: 200,
@@ -228,4 +231,3 @@ export const createNewUsers = async (req, res) => {
         })
     }
 };
-
