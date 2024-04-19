@@ -178,7 +178,7 @@ export const createNewUsers = async (req, res) => {
                     const userModel = Users.newUser(
                         null,
                         userData.email.toString(),
-                        userData.password.toString(),
+                        bcrypt.hashSync(userData.password.toString()),
                         userData.role.toString(),
                         userData.phone.toString(),
                         userData.firstName.toString(),
@@ -186,10 +186,8 @@ export const createNewUsers = async (req, res) => {
                         userData.address.toString(),
                         null
                     );
-                    console.log(userModel)
                     try{
                         const userExist = await Users.getByEmail2(userModel.email)
-                        console.log(userExist)
                         if(userExist.length > 0){
                             return null
                         } 
