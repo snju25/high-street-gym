@@ -3,6 +3,7 @@ import * as Users from "../models/users.js"
 import { v4 as uuid4 } from "uuid"
 import bcrypt from "bcryptjs"
 import xml2js from "xml2js"
+import validator from "validator";
 
 export const getAllUsers = async (req,res)=>{
     const users = await Users.getAll()
@@ -54,6 +55,40 @@ export const registerUser = async(req,res)=>{
     const {phone,firstName,lastName,address,email} = req.body
     let {password} = req.body
 
+
+    if (!/[a-zA-Z-]{2,}/.test(firstName)) {
+        return res.json({
+            message: "First name must be letters",
+        });
+    }
+    if (!/[a-zA-Z-]{2,}/.test(lastName)) {
+        return res.json({
+            message: "last name must be letters",
+        });
+    }
+    if (!/[a-zA-Z0-9-]{6,}/.test(password)) {
+        return res.json({
+            message:  "Password must be at least 6 characters long and contain a variety of characters.",
+        });
+    }
+    if (!/(^\({0,1}((0|\+61)(2|4|3|7|8)){0,1}\){0,1}(\ |-){0,1}[0-9]{2}(\ |-){0,1}[0-9]{2}(\ |-){0,1}[0-9]{1}(\ |-){0,1}[0-9]{3}$)/.test(phone)) {
+        return res.json({
+            message: "Please enter a valid australian phone number",
+        });
+    }
+    if ( !/^\S{1,}@\S{1,}[.]\S{1,}$/.test(email)) {
+        return res.json({
+            message:  "Please enter a valid email address",
+        });
+    }
+    if ( !/^\d+\s+([a-zA-Z]+\s*)+/.test(address)) {
+        return res.json({
+            message:  "Please enter a valid  address",
+        });
+    }
+
+   
+
     // TODO: check if the user already exits in the database
     // First, check if the username already exists
     const [users] = await db.query(`SELECT * FROM users WHERE user_email = ?`, [email]);
@@ -69,13 +104,13 @@ export const registerUser = async(req,res)=>{
     // convert the user data into an user model object
     const user = Users.newUser(
         null,
-        email,
-        password,
+        validator.escape(email),
+        validator.escape(password),
         "member",
-        phone,
-        firstName,
-        lastName,
-        address,
+        validator.escape(phone),
+        validator.escape(firstName),
+        validator.escape(lastName),
+        validator.escape(address),
         null 
     )
 
