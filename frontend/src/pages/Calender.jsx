@@ -34,15 +34,10 @@ const Calendar = () => {
 
   const [classes, setClasses] = useState({});
 
-  const {authenticationKey} = useSelector(state=> state.userState.user)
 
   const fetchClassesForWeek = async () => {
     try {
-      const response = await customFetch(`/classes/calender?startDate=${startDate}&endDate=${endDate}`,{
-        headers: {
-          "X-AUTH-KEY": authenticationKey
-        }
-      });
+      const response = await customFetch(`/classes/calender?startDate=${startDate}&endDate=${endDate}`);
       setClasses(response.data.classes);
     } catch (err) {
       console.error("Error fetching classes:", err);

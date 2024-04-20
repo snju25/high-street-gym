@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
 
+
 // create a post loader
 export const action = (store) => async ({request}) => {
   const formData = await request.formData()
@@ -58,11 +59,13 @@ const Blog = () => {
           }
         });
         toast.success(response.data.message || "Post deleted successfully");
-        navigate(0)
+        navigate(0) //........
     } catch (error) {
         toast.error("Error deleting post");
     }
 };
+
+
 
   return (
     <main>

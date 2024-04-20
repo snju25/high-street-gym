@@ -1,6 +1,9 @@
 import {NavLink} from "react-router-dom"
+import {useSelector} from "react-redux"
 
 const Navbar = () => {
+  const user = useSelector(state => state.userState.user)
+  console.log(user?.role)
   return (
     <nav>
       <div className="navbar bg-base-100 align-element">
@@ -32,9 +35,12 @@ const Navbar = () => {
               <li>
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
-              <li>
+              { (user?.role === "trainer" || user?.role === "manager") &&
+                <li>
                 <NavLink to="/importXML">XML Import</NavLink>
               </li>
+              }
+            
               <li>
                 <NavLink to="/profile">Profile</NavLink>
               </li>
@@ -53,9 +59,11 @@ const Navbar = () => {
               <li>
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
-              <li>
+              { (user?.role === "trainer" || user?.role === "manager") &&
+                <li>
                 <NavLink to="/importXML">XML Import</NavLink>
               </li>
+              }
               <li>
                 <NavLink to="/profile">Profile</NavLink>
               </li>

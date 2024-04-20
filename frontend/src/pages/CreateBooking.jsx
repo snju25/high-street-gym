@@ -6,19 +6,19 @@ import {toast} from "react-toastify"
 
 export const loader = (store) => async({params}) =>{
   const {date,id} = params
-  const {authenticationKey} = store.getState().userState.user
+  const user = store.getState().userState.user
   try{
     const response = await customFetch(`classes/createBooking/${date}/${id}`,{
       headers: {
-        "X-AUTH-KEY": authenticationKey
+        "X-AUTH-KEY": user?.authenticationKey
       }
     })
     const availableClasses = response.data.classes
     return availableClasses
 
   }catch(err){
-    console.log(err)
-    return err
+    toast.error("You must login first")
+    return redirect("/login");
   }
 
 }
