@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import customFetch from "../utils/axios/axios"
 import React, { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
 
 
   // Function to format a date as YYYY-MM-DD
@@ -33,9 +34,15 @@ const Calendar = () => {
 
   const [classes, setClasses] = useState({});
 
+  const {authenticationKey} = useSelector(state=> state.userState.user)
+
   const fetchClassesForWeek = async () => {
     try {
-      const response = await customFetch(`/classes/calender?startDate=${startDate}&endDate=${endDate}`);
+      const response = await customFetch(`/classes/calender?startDate=${startDate}&endDate=${endDate}`,{
+        headers: {
+          "X-AUTH-KEY": authenticationKey
+        }
+      });
       setClasses(response.data.classes);
     } catch (err) {
       console.error("Error fetching classes:", err);

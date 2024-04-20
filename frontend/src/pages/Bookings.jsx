@@ -1,6 +1,7 @@
 import { useLoaderData, useNavigate,redirect } from "react-router-dom"
 import customFetch from "../utils/axios/axios"
 import {toast} from "react-toastify"
+import { useSelector } from "react-redux"
 
 
 export const loader = (store) => async({request}) =>{
@@ -23,9 +24,14 @@ export const loader = (store) => async({request}) =>{
 const Bookings = () => {
   const bookings = useLoaderData()
   const navigate = useNavigate()
+  const {authenticationKey} = useSelector(state => state.userState.user)
   const handleCancel = async(id) =>{
     try{
-      const response = await customFetch.delete(`/bookings/${id}`)
+      const response = await customFetch.delete(`/bookings/${id}`,{
+        headers: {
+          "X-AUTH-KEY": authenticationKey
+        }
+      })
       toast.success(response.data.message)
       return navigate(0) //.............
     }catch(err){

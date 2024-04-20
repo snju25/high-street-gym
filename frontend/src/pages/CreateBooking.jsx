@@ -6,8 +6,13 @@ import {toast} from "react-toastify"
 
 export const loader = (store) => async({params}) =>{
   const {date,id} = params
+  const {authenticationKey} = store.getState().userState.user
   try{
-    const response = await customFetch(`classes/createBooking/${date}/${id}`)
+    const response = await customFetch(`classes/createBooking/${date}/${id}`,{
+      headers: {
+        "X-AUTH-KEY": authenticationKey
+      }
+    })
     const availableClasses = response.data.classes
     return availableClasses
 
@@ -29,7 +34,7 @@ const CreateBooking = () => {
   const [selectedClass, setSelectedClass] = useState(null);
 
   // gets the id from react redux userState
-  const {id} = useSelector(state => state.userState.user)
+  const {id,authenticationKey} = useSelector(state => state.userState.user)
 
   // Group classes by time
   const classesByTime = classes.reduce((acc, curr) => {
@@ -43,9 +48,13 @@ const CreateBooking = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const bookingData = {user_id:id,time:selectedTime, class_id: selectedClass.class_id, trainer_id: selectedClass.class_trainer_user_id, date: new Date(selectedClass.date).toLocaleDateString('en-CA').split('/').join('-')}
-  
+    
     try{
-      const response = await customFetch.post("/bookings/",bookingData)
+      const response = await customFetch.post("/bookings/",bookingData, {
+        headers:{
+          "X-AUTH-KEY": authenticationKey
+        }
+      })
       toast.success(response.data.message || "Created Booking")
       return navigate("/bookings")
 
