@@ -28,7 +28,7 @@ export const createNewClass = async(newClass) =>{
 
 }
 
-// get classes by date and 
+// get classes by date and activity id
 export const getByDateAndActivity = async (date, activity_id) => {
     const [results] = await db.query(
         `SELECT classes.*, users.user_firstName, users.user_lastName 

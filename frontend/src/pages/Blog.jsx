@@ -1,4 +1,4 @@
-import {Form, Link, useLoaderData, useNavigate} from "react-router-dom"
+import {Form, Link, useLoaderData, useNavigate, redirect} from "react-router-dom"
 import customFetch from "../utils/axios/axios"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
@@ -26,8 +26,8 @@ export const action = (store) => async ({request}) => {
 
 // get all post loader
 export const loader = (store) => async ({request}) =>{
-  const {authenticationKey} = store.getState().userState.user
   try{
+    const {authenticationKey} = store.getState().userState.user
     const response = await customFetch("/allBlogs",{
       headers : {
         "X-AUTH-KEY": authenticationKey
@@ -37,9 +37,10 @@ export const loader = (store) => async ({request}) =>{
     return {allBlogPost: allBlogPost?.allBlogs}
   }
   catch(error){
+    toast.error("You must login first")
+    return redirect("/login");
 
   }
-  return null
 }
 
 const Blog = () => {

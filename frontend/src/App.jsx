@@ -1,3 +1,4 @@
+import AuthRoute from "./components/AuthRoute"
 import {
   createBrowserRouter,
   Navigate,
@@ -11,7 +12,6 @@ import { action as blogAction } from "./pages/Blog"
 import { action as singleBlogAction } from "./pages/SingleBlogPage"
 import { loader as singleBlogLoader } from "./pages/SingleBlogPage"
 import {loader as blogLoader } from "./pages/Blog"
-import AuthRoute from "./components/AuthRoute"
 import ErrorElement from "./components/ErrorElement";
 import store from "./store";
 import {loader as bookingLoader} from "./pages/Bookings"
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
       {
         path: "/bookings",
         element: <Bookings />,
+        loader: bookingLoader(store),
         errorElement: <ErrorElement/>,
-        loader: bookingLoader(store)
       },
       // display classes here........................//
       {
@@ -57,17 +57,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/importXML",
-        element: <ImportXML uploadURL="/importXML" />,
+        element: <AuthRoute><ImportXML uploadURL="/importXML" /></AuthRoute>,
         errorElement: <ErrorElement/>
       },
       {
         path:"/profile",
-        element:<Profile />,
+        element: <AuthRoute><Profile /></AuthRoute>,
         errorElement: <ErrorElement/>
       },
       {
         path:"/createBooking/:date/:id",
-        element: <CreateBooking/>,
+        element: <AuthRoute><CreateBooking/></AuthRoute>,
         errorElement: <ErrorElement/>,
         loader: createBookingLoader(store)
       }
