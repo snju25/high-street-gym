@@ -9,6 +9,7 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
   const [classStatus, setClassStatus] = useState("");
   const uploadInputRef1 = useRef(null); // Ref for the first form
   const uploadInputRef2 = useRef(null); // Ref for the second form
+  const [emailExist, setEmailExist] = useState([])
 
   const uploadFile = async (e) => {
     e.preventDefault();
@@ -21,6 +22,8 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
           'X-AUTH-KEY': user.authenticationKey
         }
       });
+      const emailAlreadyExist = response.data.emailThatExist
+      setEmailExist(emailAlreadyExist)
       toast.success(response.data.message || "Successfully added");
       setStatus(response.data.message || "Successfully added");
       uploadInputRef1.current.value = null;
@@ -32,7 +35,7 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
       setUserStatus(error?.response?.data?.message);
     }
   };
-
+  console.log(emailExist)
   const classUploadFile = async (e) => {
     e.preventDefault();
     const file = uploadInputRef2.current.files[0];
@@ -55,6 +58,7 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
       setClassStatus(error?.response?.data?.message);
     }
   };
+  
 
   return (
     <>
@@ -77,6 +81,14 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
               <span className="label-text-alt">{userStatus}</span>
             </div>
           </div>
+          {emailExist.length > 0 &&
+        emailExist.map((email,index)=>{
+          return <div key={index}>
+            <p className="text-red-500">Email Already Exist : {email[0]?.user_email}</p>
+          </div>
+        })
+        
+        }
         </form>
       </div>
       <div>

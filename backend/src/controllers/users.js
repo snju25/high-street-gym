@@ -207,6 +207,8 @@ export const createNewUsers = async (req, res) => {
             const operation = userUploadAttributes["operation"]
             // Slightly painful indexing to reach nested children
             const usersData = userUpload["users"][0]["user"]
+            console.log(usersData)
+            const emailAlreadyExist = []
             
             if (operation === "insert") {
                 Promise.all(usersData.map(async (userData)=>{
@@ -224,19 +226,21 @@ export const createNewUsers = async (req, res) => {
                     try{
                         const userExist = await Users.getByEmail2(userModel.email)
                         if(userExist.length > 0){
+                            emailAlreadyExist.push(userExist)
                             return null
                         } 
                         const createUser = await  Users.createUser(userModel)
                         return createUser
 
-                    }catch(err){
+                    } catch(err){
                         return err;
                     }
                     // Check if a user with that email exists
                 })).then(result=> {
                     res.status(200).json({
                         status: 200,
-                        message: "XML Upload insert successfully"
+                        message: "XML Upload insert successfully",
+                        emailThatExist: emailAlreadyExist
                     });
                 }).catch(error =>{
                     res.status(400).json({
