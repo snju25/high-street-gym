@@ -26,7 +26,6 @@ export const loader = (store) => async({params}) =>{
 
 const CreateBooking = () => {
   const classes = useLoaderData();
-  console.log(classes)
   const navigate = useNavigate()
 
   // State to hold the selected time and class

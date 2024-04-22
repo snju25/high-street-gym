@@ -3,7 +3,7 @@ import {useSelector} from "react-redux"
 
 const Navbar = () => {
   const user = useSelector(state => state.userState.user)
-  console.log(user?.role)
+
   return (
     <nav>
       <div className="navbar bg-base-100 align-element">

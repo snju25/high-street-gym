@@ -2,6 +2,7 @@ import {Form, Link, useLoaderData, useNavigate, redirect} from "react-router-dom
 import customFetch from "../utils/axios/axios"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
+import { useState } from "react"
 
 
 
@@ -35,7 +36,7 @@ export const loader = (store) => async ({request}) =>{
       }
     })
     const allBlogPost = response.data
-    return {allBlogPost: allBlogPost?.allBlogs}
+    return {allBlog: allBlogPost?.allBlogs}
   }
   catch(error){
     toast.error("You must login first")
@@ -45,8 +46,8 @@ export const loader = (store) => async ({request}) =>{
 }
 
 const Blog = () => {
-  const {allBlogPost} = useLoaderData()
-  const navigate = useNavigate()
+  const {allBlog} = useLoaderData()
+  const [allBlogPost, setAllBlogPost] = useState(allBlog)
 
   // checks if user exist within the userState in userSlice to disable or enable create blog button. 
   const user = useSelector(state=> state.userState.user)
@@ -59,12 +60,12 @@ const Blog = () => {
           }
         });
         toast.success(response.data.message || "Post deleted successfully");
-        navigate(0) //........
+        // instead of refreshing the whole page ... fetch the data again from database using filter 
+        setAllBlogPost(allBlogPost.filter((blog)=> blog.post_id != post_id))
     } catch (error) {
         toast.error("Error deleting post");
     }
 };
-
 
 
   return (

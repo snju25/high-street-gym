@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate,redirect } from "react-router-dom"
 import customFetch from "../utils/axios/axios"
 import {toast} from "react-toastify"
 import { useSelector } from "react-redux"
+import {useState} from "react"
 
 
 export const loader = (store) => async({request}) =>{
@@ -13,8 +14,8 @@ export const loader = (store) => async({request}) =>{
         "X-AUTH-KEY": authenticationKey
       }
     })
-    const bookings = response.data.bookings
-    return bookings
+    const allBookings = response.data.bookings
+    return allBookings
   }catch(err){
     toast.error("You must login first")
     return redirect("/login");
@@ -22,7 +23,8 @@ export const loader = (store) => async({request}) =>{
 }
 
 const Bookings = () => {
-  const bookings = useLoaderData()
+  const allBookings = useLoaderData()
+  const [bookings, setBooking] = useState(allBookings)
   const navigate = useNavigate()
   const {authenticationKey} = useSelector(state => state.userState.user)
   const handleCancel = async(id) =>{
@@ -33,7 +35,8 @@ const Bookings = () => {
         }
       })
       toast.success(response.data.message)
-      return navigate(0) //.............
+      setBooking(bookings.filter(booking => booking.bookingId !== id))
+      return;
     }catch(err){
       toast.error("There were some errors in deleting the booking")
       return err
