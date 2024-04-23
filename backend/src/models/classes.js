@@ -140,7 +140,6 @@ export const classAlreadyExists = async (data) => {
             FROM classes
             WHERE class_activity_id = ? AND class_trainer_user_id = ? AND class_datetime = ? AND date = ?
         `, [activity_id, trainer_id, time, date]);
-
         return rows.length > 0; // Returns true if class exists, false otherwise
     } catch (error) {
         console.error("Error checking if class exists:", error);
@@ -153,9 +152,10 @@ export const classAlreadyExists = async (data) => {
 //         activity_id: "1", 
 //         trainer_id: "1", 
 //         time: "08:00:00" , 
-//         date : "2024-04-15"
+//         date : "2024-10-15"
 //     }
 // ).then(res=> console.log(res))
+// console.log(clzzz)
 
 
 

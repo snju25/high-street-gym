@@ -40,7 +40,7 @@ const Profile = () => {
   }
   return (
     <main className="grid place-items-center">
-      <form className="form-control card w-96 md:w-[80%] max-w-[900px] p-8 bg-base-100 shadow-lg grid md:grid-cols-2 md:gap-2 " onSubmit={handleSubmit}>
+      <form className="form-control card w-50 md:w-[80%] max-w-[900px] p-8 bg-base-100 shadow-lg grid md:grid-cols-2 md:gap-2 " onSubmit={handleSubmit}>
         <div>
           <div className="label">
             <span className="label-text">First Name</span>

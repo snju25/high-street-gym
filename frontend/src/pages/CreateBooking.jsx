@@ -34,6 +34,7 @@ const CreateBooking = () => {
 
   // gets the id from react redux userState
   const {id,authenticationKey} = useSelector(state => state.userState.user)
+  console.log(classes)
 
   // Group classes by time
   const classesByTime = classes.reduce((acc, curr) => {
@@ -41,7 +42,7 @@ const CreateBooking = () => {
     acc[curr.class_datetime].push(curr);
     return acc;
   }, {});
-  console.log(classesByTime)
+  // console.log(classesByTime)
 
   // Handler for form submission
   const handleSubmit = async (e) => {
@@ -66,16 +67,19 @@ const CreateBooking = () => {
   return (
     <form onSubmit={handleSubmit} className="">
       <h1 className="text-2xl font-bold mb-5">Create Booking</h1>
+      <div className="flex flex-col md:flex-row gap-2">
+
       <label htmlFor="time" className="mr-5 text-xl font-semibold">Select Time:</label>
       <select id="time" value={selectedTime} onChange={e => setSelectedTime(e.target.value)} className="select select-bordered w-full max-w-xs">
         <option  disabled value="">Select a time</option>
         {Object.keys(classesByTime).map(time => (
           <option key={time} value={time}>{time}</option>
-        ))}
+          ))}
       </select>
+          </div>
 
       {selectedTime && (
-        <div className="mt-5">
+        <div className="mt-5 flex flex-col md:flex-row gap-2">
           <label htmlFor="trainer" className="mr-5 text-xl font-semibold">Select Trainer:</label>
           <select className="select select-bordered w-full max-w-xs" id="trainer" value={selectedClass?.class_id || ''} onChange={e => setSelectedClass(classesByTime[selectedTime].find(c => c.class_id === parseInt(e.target.value)))}>
             <option value="">Select a trainer</option>

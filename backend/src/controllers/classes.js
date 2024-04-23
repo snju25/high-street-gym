@@ -84,8 +84,9 @@ export const createNewClasses = async (req, res) => {
             const classesData = classUpload["classes"][0]["class"]
             // console.log(classesData[0].date.toString())
             
+            let classesAlreadyExist = []
             if (operation === "insert") {
-                Promise.all(classesData.map((classData)=>{
+                Promise.all(classesData.map((classData,index)=>{
                     const classModel = Classes.newClass(
                         null,
                         classData.datetime.toString(),
@@ -95,8 +96,9 @@ export const createNewClasses = async (req, res) => {
                         classData.roomNumber.toString(),
                     );
                     // Check if a user with that email exists
-                     Classes.classAlreadyExists({activity_id: classModel.activity_id, trainer_id: classModel.trainer_id,time: classModel.time, date: classModel.date}).then(classes => {
+                     return Classes.classAlreadyExists({activity_id: classModel.activity_id, trainer_id: classModel.trainer_id,time: classModel.time, date: classModel.date}).then(classes => {
                         if (classes) {
+                            classesAlreadyExist.push({index, ...classModel})
                             // If a matching user object is found, skip insertion
                             return null
                         } else {
@@ -107,7 +109,8 @@ export const createNewClasses = async (req, res) => {
                 })).then(result=> {
                     res.status(200).json({
                         status: 200,
-                        message: "XML Upload insert successfully"
+                        message: "XML Upload insert successfully",
+                        classesAlreadyExist
                     });
                 }).catch(error =>{
                     res.status(400).json({

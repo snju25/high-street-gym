@@ -18,14 +18,14 @@
             <datetime>08:00:00</datetime>
             <activityID>1</activityID>
             <trainerID>1</trainerID>
-            <date>2024-05-12</date>
+            <date>2024-06-01</date>
             <roomNumber>3</roomNumber>
       </class>
         <class>
             <datetime>09:00:00</datetime>
             <activityID>2</activityID>
             <trainerID>1</trainerID>
-            <date>2024-05-12</date>
+            <date>2024-06-01</date>
             <roomNumber>3</roomNumber>
         </class>
     </classes>

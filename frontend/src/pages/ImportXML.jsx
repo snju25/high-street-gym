@@ -9,7 +9,9 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
   const [classStatus, setClassStatus] = useState("");
   const uploadInputRef1 = useRef(null); // Ref for the first form
   const uploadInputRef2 = useRef(null); // Ref for the second form
+
   const [emailExist, setEmailExist] = useState([])
+  const [classAlreadyExist, setClassAlreadyExist] = useState([])
 
   const uploadFile = async (e) => {
     e.preventDefault();
@@ -35,7 +37,6 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
       setUserStatus(error?.response?.data?.message);
     }
   };
-  console.log(emailExist)
   const classUploadFile = async (e) => {
     e.preventDefault();
     const file = uploadInputRef2.current.files[0];
@@ -47,6 +48,8 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
           'X-AUTH-KEY': user.authenticationKey
         }
       });
+      const classesAlreadyExist = response.data.classesAlreadyExist
+      setClassAlreadyExist(classesAlreadyExist)
       toast.success(response.data.message || "Successfully added");
       setStatus(response.data.message || "Successfully added");
       uploadInputRef2.current.value = null;
@@ -68,7 +71,7 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
             <label className="label">
               <span className="label-text">New Member XML File Import</span>
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <input
                 ref={uploadInputRef1}
                 type="file"
@@ -97,7 +100,7 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
             <label className="label">
               <span className="label-text">New Classes XML File Import</span>
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <input
                 ref={uploadInputRef2}
                 type="file"
@@ -110,6 +113,20 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
               <span className="label-text-alt">{classStatus}</span>
             </div>
           </div>
+          {classAlreadyExist.length > 0 && (
+            <>
+            <p>These are 0 based index check XML file at these index, those classes already Exist in database</p>
+            {
+              classAlreadyExist.map((clazz,index)=>{
+                return <div key={index}>
+                  
+                  <p className="text-red-500">Class at Index {clazz.index}:[ Date: {clazz.date}, Time: {clazz.time}, activity_id: {clazz.activity_id}, room: {clazz.room_number} ]</p>
+                </div>
+              })
+            }
+            </>
+          )
+        }
         </form>
       </div>
     </>

@@ -75,8 +75,8 @@ const Blog = () => {
         <div className="rounded-lg shadow-lg border min-h-[100px] mb-5 p-4">
           <Form method="post" className="flex flex-col gap-3">
             <h1 className="text-2xl font-bold" >Create a Post</h1>
-            <input name="title" placeholder="Title...." className="border border-gray-300 p-4 w-[90%]" />
-            <input name="content" placeholder="Write your own blog here...." className="border border-gray-300 p-4 w-[90%] min-h-[100px]" />
+            <input name="title" placeholder="Title...." className="border border-gray-300 p-4 w-[90%]" required />
+            <input name="content" placeholder="Write your own blog here...." required className="border border-gray-300 p-4 w-[90%] min-h-[100px]" />
             <button type="submit" className="btn btn-secondary" disabled={user?false: true}>Create</button>
           </Form>
         </div>

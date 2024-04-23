@@ -70,23 +70,23 @@ const Calendar = () => {
   return (
     <div>
       <div className="flex justify-between mb-5">
-        <button onClick={handlePreviousWeek} className="btn btn-primary">Previous Week</button>
-        <button onClick={handleNextWeek} className="btn btn-primary" >Next Week</button>
+        <button onClick={handlePreviousWeek} className="btn btn-sm btn-primary text-xs md:text-lg">Previous Week</button>
+        <button onClick={handleNextWeek} className="btn btn-sm btn-primary text-xs md:text-lg" >Next Week</button>
       </div>
       <div className="grid gap-4">
         {Object.entries(classes).map(([date, dayClasses]) => (
           <div key={date} className="">
-            <div className="rounded-lg p-4 bg-[#f2f2f2] flex justify-between gap-2 ">
-              <h3 className="font-bold text-2xl">{new Date(date).toLocaleDateString("en-US", { weekday: 'long' })}</h3>
-              <span className="font-bold text-2xl">{date.split(' ').splice(1,3).join(" ")}</span>
+            <div className="rounded-lg p-4 bg-[#f2f2f2] flex justify-between gap-2 items-center ">
+              <h3 className="font-bold text-base md:text-2xl">{new Date(date).toLocaleDateString("en-US", { weekday: 'long' })}</h3>
+              <span className="font-bold text-base md:text-2xl">{date.split(' ').splice(1,3).join(" ")}</span>
             </div>
             <div className="grid gap-3">
             {dayClasses.map(({ activity_id, activity_name, activity_description }) => (
               <div key={activity_name} className="card w-full bg-base-100 shadow-xl py-4 px-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h1 className="text-2xl">{activity_name}</h1>
-                    <p>{activity_description}</p>
+                <div className="md:flex items-center justify-between">
+                  <div className="py-4 md:py-0">
+                    <h1 className="text-base md:text-2xl">{activity_name}</h1>
+                    <p className="text-sm md:text-lg">{activity_description}</p>
                   </div>
 
                   <Link
