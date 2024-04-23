@@ -41,7 +41,7 @@ const Profile = () => {
   return (
     <main className="grid place-items-center">
       <form className="form-control card w-50 md:w-[80%] max-w-[900px] p-8 bg-base-100 shadow-lg grid md:grid-cols-2 md:gap-2 " onSubmit={handleSubmit}>
-        <div>
+        <div className="flex flex-col">
           <div className="label">
             <span className="label-text">First Name</span>
           </div>
@@ -51,9 +51,11 @@ const Profile = () => {
             value={formData.firstName}
             onChange={(e)=> setFormData((prevData) => { return {...prevData,  firstName: e.target.value}})}
             required
+            pattern="^[a-zA-Z\- ]+$"
             />
+          <span>Invalid first Name must be all letters</span>
         </div>
-        <div>
+        <div className="flex flex-col">
           <div className="label">
             <span className="label-text">Last Name</span>
           </div>
@@ -63,9 +65,11 @@ const Profile = () => {
             value={formData.lastName}
             onChange={(e)=> setFormData((prevData) => { return {...prevData,  lastName: e.target.value}})}
             required
+            pattern="^[a-zA-Z\- ]+$"
             />
+            <span>Invalid last Name must be all letters</span>
         </div>
-        <div>
+        <div className="flex flex-col">
           <div className="label">
             <span className="label-text">Email</span>
           </div>
@@ -75,9 +79,11 @@ const Profile = () => {
             value={formData.email}
             onChange={(e)=> setFormData((prevData) => { return {...prevData,  email: e.target.value}})}
             required
+            pattern="^\S+@\S+\.\S+$"
             />
+            <span>Invalid input must be a valid email address</span>
         </div>
-        <div>
+        <div className="flex flex-col">
           <div className="label">
             <span className="label-text">password</span>
           </div>
@@ -89,8 +95,9 @@ const Profile = () => {
             onChange={(e)=> setFormData((prevData) => { return {...prevData,  password: e.target.value}})}
             required
             />
+            <span>invalid password must be 6 character long</span>
         </div>
-        <div>
+        <div className="flex flex-col">
           <div className="label">
             <span className="label-text">Phone</span>
           </div>
@@ -99,9 +106,11 @@ const Profile = () => {
             className="input input-bordered w-full max-w-xs" 
             value={formData.phone}
             onChange={(e)=> setFormData((prevData) => { return {...prevData,  phone: e.target.value}})}
+            pattern="^(0|\+61) ?[0-9]{1,2} ?[0-9]{4} ?[0-9]{4}$"
             />
+            <span>Invalid phone number</span>
         </div>
-        <div>
+        <div className="flex flex-col">
           <div className="label">
             <span className="label-text">Address</span>
           </div>
@@ -110,7 +119,9 @@ const Profile = () => {
             className="input input-bordered w-full max-w-xs" 
             value={formData.address}
             onChange={(e)=> setFormData((prevData) => { return {...prevData,  address: e.target.value}})}
+            pattern="^[\w\s\-,./#]+$"
             />
+            <span>Invalid Address</span>
         </div>
         <button className="btn btn-primary md:col-span-2 mt-5">Update</button>
       </form>

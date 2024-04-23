@@ -1,5 +1,6 @@
 import * as Blog from "../models/blog.js"
 import * as BlogUser from "../models/blogUser.js"
+import validator from "validator";
 
 // get all blogs
 export const getAllBlogs = async(req,res) =>{
@@ -13,13 +14,27 @@ export const getAllBlogs = async(req,res) =>{
 }
 export const createABlog  = async(req,res) =>{
     const {user_id, title,content} = req.body
+
+    // validate title and content
+    if(!/^[a-zA-Z0-9\s_-]*$/.test(title)){
+        return res.json({
+            message: "Title must be Numbers and letters only."
+        })
+    }
+    if(!/^[a-zA-Z0-9\s_-]*$/.test(content)){
+        return res.json({
+            message: "Content must be Numbers and letters only."
+        })
+    }
     const blog = Blog.newBlogPost(
         null,
         null,
-        user_id,
-        title,
-        content
+        validator.escape(user_id),
+        validator.escape(title),
+        validator.escape(content)
     ) 
+
+
 
     Blog.createPost(blog).then(post=>{
         res.status(200).json({
@@ -42,17 +57,30 @@ export const createABlog  = async(req,res) =>{
 export const editBlog = async(req,res)=>{
     const {title,content} = req.body
     const postId = req.params.id
-    console.log(postId)
-    const app = 1
-    console.log(app)
+
+      // validate title and content
+     // validate title and content
+     if(!/^[a-zA-Z0-9\s_-]*$/.test(title)){
+        return res.json({
+            message: "Title must be Numbers and letters only."
+        })
+    }
+    if(!/^[a-zA-Z0-9\s_-]*$/.test(content)){
+        return res.json({
+            message: "Content must be Numbers and letters only."
+        })
+    }
+
 
     const blog = Blog.newBlogPost(
         postId,
         null,
         null,
-        title,
-        content
+        validator.escape(title),
+        validator.escape(content)
     )
+
+  
 
     Blog.updatePost(blog).then(post=>{
         res.status(200).json({

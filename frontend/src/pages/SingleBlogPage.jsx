@@ -51,17 +51,23 @@ const SingleBlogPage = () => {
         value={formData.title}
         onChange={(e) => setFormData(existing => { return { ...existing, title: e.target.value } })}
         name="title" 
-        placeholder="Title...." 
+        placeholder="Title...."
+        pattern="^[a-zA-Z0-9\\s_-]*$"
         className="border border-gray-300 p-4 w-[90%]"
+        required
          />
+        <span>Invalid input</span>
       <input 
         name="content" 
         placeholder="Write your own blog here...." 
         className="border border-gray-300 p-4 w-[90%] min-h-[100px]"
         value={formData.content}
+        pattern="^[a-zA-Z0-9\\s_-]*$"
         onChange={(e) => setFormData(existing => { return { ...existing, content: e.target.value } })}
+        required
         
         />
+        <span>Invalid input</span>
       <button type="submit" className="btn btn-secondary" >Update</button>
   </Form>
   )
