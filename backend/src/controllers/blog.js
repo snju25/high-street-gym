@@ -16,16 +16,16 @@ export const createABlog  = async(req,res) =>{
     const {user_id, title,content} = req.body
 
     // validate title and content
-    if(!/^[a-zA-Z0-9\s_-]*$/.test(title)){
-        return res.json({
-            message: "Title must be Numbers and letters only."
-        })
-    }
-    if(!/^[a-zA-Z0-9\s_-]*$/.test(content)){
-        return res.json({
-            message: "Content must be Numbers and letters only."
-        })
-    }
+    // if(!/^[a-zA-Z0-9\s_-]*$/.test(title)){
+    //     return res.json({
+    //         message: "Title must be Numbers and letters only."
+    //     })
+    // }
+    // if(!/^[a-zA-Z0-9\s_-]*$/.test(content)){
+    //     return res.json({
+    //         message: "Content must be Numbers and letters only."
+    //     })
+    // }
     const blog = Blog.newBlogPost(
         null,
         null,
@@ -60,16 +60,16 @@ export const editBlog = async(req,res)=>{
 
       // validate title and content
      // validate title and content
-     if(!/^[a-zA-Z0-9\s_-]*$/.test(title)){
-        return res.json({
-            message: "Title must be Numbers and letters only."
-        })
-    }
-    if(!/^[a-zA-Z0-9\s_-]*$/.test(content)){
-        return res.json({
-            message: "Content must be Numbers and letters only."
-        })
-    }
+    //  if(!/^[a-zA-Z0-9\s_-]*$/.test(title)){
+    //     return res.json({
+    //         message: "Title must be Numbers and letters only."
+    //     })
+    // }
+    // if(!/^[a-zA-Z0-9\s_-]*$/.test(content)){
+    //     return res.json({
+    //         message: "Content must be Numbers and letters only."
+    //     })
+    // }
 
 
     const blog = Blog.newBlogPost(

@@ -32,9 +32,11 @@ const Navbar = () => {
               <li>
                 <NavLink to="/">Calender</NavLink>
               </li>
-              <li>
+              { user?.role === "member"  &&
+                <li>
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
+              }
               { (user?.role === "trainer" || user?.role === "manager") &&
                 <li>
                 <NavLink to="/importXML">XML Import</NavLink>
@@ -49,16 +51,18 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">High Street Gym</a>
+          <NavLink to="/" className="btn btn-ghost text-xl">High Street Gym</NavLink>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
           <li>
                 <NavLink to="/">Calender</NavLink>
               </li>
-              <li>
+              { user?.role === "member"  &&
+                <li>
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
+              }
               { (user?.role === "trainer" || user?.role === "manager") &&
                 <li>
                 <NavLink to="/importXML">XML Import</NavLink>

@@ -36,7 +36,7 @@ const Login = () => {
           placeholder="email"
           name="email"
           errorMessage="This field ...."
-          defaultValue="bhandaro1211@gmail.com"
+          defaultValue="member21@gmail.com"
         />
         <InputForm
           label="password"
@@ -45,7 +45,7 @@ const Login = () => {
           name="password"
           // pattern=".{7,}"
           errorMessage = "This field is required"
-          defaultValue="1234"
+          defaultValue="abc123"
         />
         <SubmitBtn text={"Login"} />
         <p className='text-center'>

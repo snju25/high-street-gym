@@ -2,7 +2,6 @@ import {
   Form,
   Link,
   useLoaderData,
-  useNavigate,
   redirect,
 } from "react-router-dom";
 import customFetch from "../utils/axios/axios";
@@ -16,7 +15,8 @@ export const action =
   async ({ request }) => {
     const formData = await request.formData();
     const postContent = Object.fromEntries(formData);
-    const { id, authenticationKey } = store.getState().userState.user;
+    let { id, authenticationKey } = store.getState().userState.user;
+    id = id.toString()
     const { title, content } = postContent;
     try {
       const response = await customFetch.post(
@@ -101,7 +101,7 @@ const Blog = () => {
             <span>Invalid input</span>
             <button
               type="submit"
-              className="btn btn-secondary"
+              className="btn btn-primary"
               disabled={user ? false : true}
             >
               Create
@@ -132,7 +132,7 @@ const Blog = () => {
                 <h2 className="text-2xl font-semibold">{title}</h2>
                 <p>{content}</p>
                 <p>{new Date(datetime).toLocaleString()}</p>
-                {user && user_id === user.id && (
+                {user && (user_id === user.id || user.role === "manager") && (
                   <div className="card-actions justify-end ml-auto">
                     <button
                       className="btn bg-red-400 p-0 px-2 py-1 text-white"

@@ -243,6 +243,38 @@ export const createNewUsers = async (req, res) => {
             
             if (operation === "insert") {
                 Promise.all(usersData.map(async (userData)=>{
+
+                    // if (!/[a-zA-Z-]{2,}/.test(userData.firstName)) {
+                    //     return res.json({
+                    //         message: "First name must be letters",
+                    //     });
+                    // }
+                    // if (!/[a-zA-Z-]{2,}/.test(userData.lastName.toString())) {
+                    //     return res.json({
+                    //         message: "last name must be letters",
+                    //     });
+                    // }
+                    // if (!/[a-zA-Z0-9-]{6,}/.test(userData.password.toString())) {
+                    //     return res.json({
+                    //         message:  "Password must be at least 6 characters long and contain a variety of characters.",
+                    //     });
+                    // }
+                    // if (!/(^\({0,1}((0|\+61)(2|4|3|7|8)){0,1}\){0,1}(\ |-){0,1}[0-9]{2}(\ |-){0,1}[0-9]{2}(\ |-){0,1}[0-9]{1}(\ |-){0,1}[0-9]{3}$)/.test(userData.phone)) {
+                    //     return res.json({
+                    //         message: "Please enter a valid australian phone number",
+                    //     });
+                    // }
+                    // if ( !/^\S{1,}@\S{1,}[.]\S{1,}$/.test(userData.email)) {
+                    //     return res.json({
+                    //         message:  "Please enter a valid email address",
+                    //     });
+                    // }
+                    // if ( !/^\d+\s+([a-zA-Z]+\s*)+/.test(userData.address)) {
+                    //     return res.json({
+                    //         message:  "Please enter a valid  address",
+                    //     });
+                    // }
+
                     const userModel = Users.newUser(
                         null,
                         userData.email.toString(),

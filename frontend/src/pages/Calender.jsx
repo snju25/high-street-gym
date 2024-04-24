@@ -12,6 +12,21 @@ import { useSelector } from "react-redux";
     return `${year}-${month}-${day}`;
   };
 
+  function getMondayDate() {
+    let today = new Date(); // Get today's date
+    let day = today.getDay(); // Get the day of the week (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
+    let diff = today.getDate() - day + (day === 0 ? -6 : 1); // Calculate the difference to Monday
+    let monday = new Date(today.setDate(diff)); // Set the date to Monday
+
+    // Format the date as "YYYY-MM-DD"
+    let formattedMonday = monday.toISOString().slice(0, 10);
+    
+    return formattedMonday;
+}
+
+// Example usage:
+
+
 const Calendar = () => {
    // Get the current date
    const currentDate = new Date();
@@ -21,6 +36,7 @@ const Calendar = () => {
    const differenceToMonday = currentDayOfWeek - 1;
    // Calculate the difference between the current day and Sunday (positive if the current day is before Sunday)
    const differenceToSunday = 7 - currentDayOfWeek;
+   
    // Calculate the Monday and Sunday dates of the current week
    const mondayDate = new Date(currentDate);
    mondayDate.setDate(currentDate.getDate() - differenceToMonday);
@@ -30,7 +46,9 @@ const Calendar = () => {
    // Format the dates as YYYY-MM-DD strings
   const [startDate, setStartDate] = useState(formatDate(mondayDate));
   const [endDate, setEndDate] = useState(formatDate(sundayDate))
-  console.log(startDate,endDate)
+  // console.log(startDate,endDate)
+
+  // console.log(currentDayOfWeek)
 
   const [classes, setClasses] = useState({});
 
@@ -43,10 +61,13 @@ const Calendar = () => {
       console.error("Error fetching classes:", err);
     }
   };
-  // console.log(classes)
+  // console.log(formatDate(currentDate), startDate)
 
   useEffect(() => {
-    fetchClassesForWeek();
+    const mondayDate = getMondayDate()
+    if( mondayDate <= startDate){
+      fetchClassesForWeek();
+    }
   }, [startDate]);
 
   const handleNextWeek = () => {
@@ -88,13 +109,14 @@ const Calendar = () => {
                     <h1 className="text-base md:text-2xl">{activity_name}</h1>
                     <p className="text-sm md:text-lg">{activity_description}</p>
                   </div>
-
-                  <Link
+                  {(new Date(date) > currentDate) && (
+                    <Link
                     to={`/createBooking/${new Date(date).toLocaleDateString('en-CA').split('/').join('-')}/${activity_id}`}
                     className="btn btn-primary"
                   >
                     Book Now
                   </Link>
+                  )} 
 
                 </div>
               </div>
