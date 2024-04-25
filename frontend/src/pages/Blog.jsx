@@ -75,6 +75,7 @@ const Blog = () => {
       toast.error("Error deleting post");
     }
   };
+  console.log(allBlogPost)
 
   return (
     <main>

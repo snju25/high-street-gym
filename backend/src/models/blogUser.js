@@ -18,6 +18,7 @@ export const getAllBlogs = async () => {
             SELECT b.post_id, b.post_datetime, b.post_title, b.post_content, b.post_user_id, u.user_firstName, u.user_lastName 
             FROM blog_posts b
             JOIN users u ON b.post_user_id = u.user_id
+            ORDER BY b.post_datetime DESC
         `;
         const [rows] = await db.execute(query);
         return rows.map(row => blogUser(row.post_id, row.post_datetime, row.post_title, row.post_content, row.post_user_id, row.user_firstName, row.user_lastName));

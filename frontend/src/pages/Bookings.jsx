@@ -37,14 +37,14 @@ const Bookings = () => {
   const allBookings = useLoaderData()
   console.log(allBookings)
   const [bookings, setBooking] = useState(allBookings)
+  const currentDate = new Date().toLocaleDateString('en-CA')
 
-  const {role,authenticationKey} = useSelector(state => state.userState.user)
-  console.log(role)
+  const user = useSelector(state => state.userState.user)
   const handleCancel = async(id) =>{
     try{
       const response = await customFetch.delete(`/bookings/${id}`,{
         headers: {
-          "X-AUTH-KEY": authenticationKey
+          "X-AUTH-KEY": user?.authenticationKey
         }
       })
       toast.success(response.data.message)
@@ -59,10 +59,12 @@ const Bookings = () => {
     <>
     <h1 className="text-center text-2xl font-bold mb-5">Bookings</h1>
     <section className="flex flex-col gap-5">
-    { role ==="member" && bookings.map(booking=>{
-      const { bookingId, userId, classId, time, date, trainerId, activityName, roomNumber, trainerFirstName, trainerLastName } = booking
+    { user?.role === "member" ? bookings.filter(booking => new Date(booking.date).toLocaleDateString('en-CA') >= currentDate).map(booking=>{
+      const { bookingId, time, date, activityName, roomNumber, trainerFirstName, trainerLastName } = booking
+      
       return <div key={bookingId} className="grid gap-2 md:gap-0 md:grid-cols-3 md:place-items-center  shadow min-h-16 card p-4">
         <div>
+          
           <p>Class: {activityName}</p>
           <p>Room Number: {roomNumber}</p>
         </div>
@@ -74,9 +76,9 @@ const Bookings = () => {
           <button className="btn btn-primary" onClick={()=>  handleCancel(bookingId)}>Cancel</button>
         </div>
       </div>
-    })}
-
-{ (role ==="trainer" || "manager") && bookings.map(booking=>{
+}): bookings
+    .filter(booking => new Date(booking.date).toLocaleDateString('en-CA') >= currentDate)
+    .map(booking=>{
       const { bookingId, userId, classId, time, date, activityName, roomNumber, userFirstName, userLastName } = booking
       return <div key={bookingId} className="grid gap-2 md:gap-0 md:grid-cols-3 md:place-items-center  shadow min-h-16 card p-4">
         <div>
@@ -91,7 +93,7 @@ const Bookings = () => {
           <button className="btn btn-primary" onClick={()=>  handleCancel(bookingId)}>Cancel</button>
         </div>
       </div>
-    })}
+})}
     </section>
     </>
   )
