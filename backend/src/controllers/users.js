@@ -5,8 +5,8 @@ import bcrypt from "bcryptjs"
 import xml2js from "xml2js"
 import validator from "validator";
 
-export const getAllUsers = async (req,res)=>{
-    const users = await Users.getAll()
+export const getTrainerAndManager = async (req,res)=>{
+    const users = await Users.getAllTrainerAndManager()
     res.status(200).json({
         status: 200,
         message: "User list",

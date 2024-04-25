@@ -29,3 +29,13 @@ export const deleteBookingByID = async(req,res)=>{
         })
     )
 }
+
+export const getTrainerBookings = async(req,res)=>{
+    const id = req.params.id
+    const bookings = await Bookings.getBookingsByTrainerID(id)
+    res.status(201).json({
+        status: 201,
+        message: "Booking has been created",
+        bookings: bookings
+    })
+}

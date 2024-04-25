@@ -1,10 +1,10 @@
 import express from "express"
-import { updateUser, getAllUsers,loginUser,registerUser, logoutUser, createNewUsers } from "../controllers/users.js"
+import { updateUser, getTrainerAndManager,loginUser,registerUser, logoutUser, createNewUsers } from "../controllers/users.js"
 import auth from "../middleware/auth.js";
 
 const router = express.Router()
 
-router.get("/AllUsers", getAllUsers);
+router.get("/AllUsers", getTrainerAndManager);
 router.post("/register",registerUser)
 router.post("/login",loginUser)
 router.post("/logout",logoutUser)

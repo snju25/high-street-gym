@@ -39,8 +39,8 @@ export const  getByAuthenticationKey = async(authenticationKey) => {
     }
 }
 
-export const getAll = async() =>{
-    const [allUserResults] = await db.query("SELECT * FROM users")
+export const getAllTrainerAndManager = async() =>{
+    const [allUserResults] = await db.query(`SELECT * FROM users WHERE user_role IN ("manager", "trainer")`)
 
     return await allUserResults.map((userResult)=>{
         return newUser(
@@ -56,6 +56,7 @@ export const getAll = async() =>{
         )
     })
 }
+// getAllTrainerAndManager().then(res => console.log(res))
 
 export const createUser = async (user) =>{
     return db.query(

@@ -16,6 +16,7 @@ import ErrorElement from "./components/ErrorElement";
 import store from "./store";
 import {loader as bookingLoader} from "./pages/Bookings"
 import CreateBooking, { loader as createBookingLoader } from "./pages/CreateBooking";
+import {loader as importXMLLoader} from "./pages/ImportXML"
 
 
 
@@ -58,7 +59,8 @@ const router = createBrowserRouter([
       {
         path: "/importXML",
         element: <AuthRoute><ImportXML uploadURL="/importXML" /></AuthRoute>,
-        errorElement: <ErrorElement/>
+        errorElement: <ErrorElement/>,
+        loader: importXMLLoader(store)
       },
       {
         path:"/profile",

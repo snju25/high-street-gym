@@ -24,6 +24,8 @@ import { useSelector } from "react-redux";
     return formattedMonday;
 }
 
+const currentMonday = getMondayDate()
+
 // Example usage:
 
 
@@ -91,7 +93,7 @@ const Calendar = () => {
   return (
     <div>
       <div className="flex justify-between mb-5">
-        <button onClick={handlePreviousWeek} className="btn btn-sm btn-primary text-xs md:text-lg">Previous Week</button>
+        <button onClick={handlePreviousWeek} disabled={startDate <= currentMonday} className="btn btn-sm btn-primary text-xs md:text-lg">Previous Week</button>
         <button onClick={handleNextWeek} className="btn btn-sm btn-primary text-xs md:text-lg" >Next Week</button>
       </div>
       <div className="grid gap-4">
