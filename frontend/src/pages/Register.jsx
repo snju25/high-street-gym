@@ -1,6 +1,6 @@
 import { Form, Link, redirect } from "react-router-dom"
 import SubmitBtn from "../components/SubmitBtn"
-import InputForm from "../components/inputForm"
+import InputForm from "../components/InputForm"
 import { toast } from "react-toastify"
 import customFetch from "../utils/axios/axios"
 
