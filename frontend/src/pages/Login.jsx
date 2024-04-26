@@ -1,5 +1,5 @@
 import { Form, Link, redirect } from "react-router-dom";
-import InputForm from "../components/inputForm";
+import InputForm from "../components/InputForm";
 import SubmitBtn from "../components/SubmitBtn";
 import customFetch from "../utils/axios/axios";
 import { toast } from "react-toastify";
@@ -30,7 +30,7 @@ export const action =
 
 const Login = () => {
   return (
-    <div className="flex md:justify-evenly md:gap-x-20 md:items-center flex-col md:flex-row">
+    <div className="flex md:justify-evenly md:gap-y-15 md:items-center flex-col md:flex-row">
       <section className="md:h-screen grid place-items-center my-4">
         <Form
           method="post"
