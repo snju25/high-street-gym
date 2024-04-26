@@ -79,18 +79,17 @@ const Bookings = () => {
 }): bookings
     .filter(booking => new Date(booking.date).toLocaleDateString('en-CA') >= currentDate)
     .map(booking=>{
-      const { bookingId, userId, classId, time, date, activityName, roomNumber, userFirstName, userLastName } = booking
-      return <div key={bookingId} className="grid gap-2 md:gap-0 md:grid-cols-3 md:place-items-center  shadow min-h-16 card p-4">
-        <div>
-          <p>Class: {activityName}</p>
-          <p>Room Number: {roomNumber}</p>
+      const { class_id, class_datetime, date,class_room_number,booking_count,activity_name,activity_duration } = booking
+      return <div key={class_id} className="grid gap-2 md:gap-0 place-items-center shadow min-h-16 card p-4">
+        <div className="bg-neutral-200 text-xl font-semibold w-full rounded-lg p-2 text-center">
+          <p>{new Date(date).toLocaleDateString('en-CA')}</p>
         </div>
         <div>
-          <p>Client: {userFirstName} {userLastName}</p>
-          <p>Date: { new Date(date).toLocaleDateString('en-CA').split('/').join('-')} at {time}</p>
-        </div>
-        <div>
-          <button className="btn btn-primary" onClick={()=>  handleCancel(bookingId)}>Cancel</button>
+          <p>Class : {activity_name}</p>
+          <p>Time: {class_datetime}</p>
+          <p>Duration: {activity_duration} minutes</p>
+          <p>Room Number: {class_room_number}</p>
+          <p>Enrolled: {booking_count}</p>
         </div>
       </div>
 })}

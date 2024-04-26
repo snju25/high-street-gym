@@ -68,43 +68,38 @@ export const getAllForOneUser = async (user_id) => {
     });
 };
 
-export const getBookingsByTrainerID = async(trainer_id)=>{
+export const getBookingsByTrainerID = async (trainer_id) => {
     const [allBookings] = await db.query(
         `SELECT 
-            bookings.booking_id,
-            bookings.booking_user_id,
-            bookings.booking_class_id,
-            bookings.booking_time,
-            bookings.booking_date,
-            bookings.booking_trainer_id,
-            activities.activity_name,
-            classes.class_room_number,
-            users.user_firstName,
-            users.user_lastName
-        FROM bookings
-        JOIN classes ON bookings.booking_class_id = classes.class_id
-        JOIN activities ON classes.class_activity_id = activities.activity_id
-        JOIN users ON bookings.booking_user_id = users.user_id
-        WHERE bookings.booking_trainer_id = ?`,
-        [trainer_id]
+            class_id,
+            class_datetime,
+            date,
+            activity_name,
+            activity_duration,
+            class_room_number,
+            COUNT(booking_id) AS booking_count
+        FROM 
+            classes
+        JOIN
+            activities ON classes.class_activity_id = activities.activity_id
+        LEFT JOIN
+            bookings ON class_id = booking_class_id
+        WHERE 
+            class_trainer_user_id = ? AND date >= CURRENT_DATE()
+        GROUP BY
+            class_id,
+            class_datetime,
+            date,
+            activity_name,
+            activity_duration
+        ORDER BY 
+            date
+        `, trainer_id
     );
-
-    return allBookings.map(booking => {
-        return {
-            bookingId: booking.booking_id,
-            userId: booking.booking_user_id,
-            classId: booking.booking_class_id,
-            time: booking.booking_time,
-            date: booking.booking_date,
-            trainerId: booking.booking_trainer_id,
-            activityName: booking.activity_name,
-            roomNumber: booking.class_room_number,
-            userFirstName: booking.user_firstName,
-            userLastName: booking.user_lastName,
-        };
-    });
-    
+    return allBookings;
 }
+
+getBookingsByTrainerID(1)
 
 
 export const deleteBookingById = async(id)=>{
