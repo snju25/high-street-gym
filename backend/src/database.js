@@ -3,10 +3,9 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-
 export const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
+    host: process.env.HOST,
+    user: process.env.USER_DSB,
     password: process.env.PASSWORD,
-    database: "high-street-gym-2024",
+    database: process.env.DATABASE,
 });
