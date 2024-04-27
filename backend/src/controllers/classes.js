@@ -39,8 +39,10 @@ export const getAllUniqueActivity = async(req,res)=>{
 }
 
 export const getByDateAndActivity = async(req,res) => {
-    const date = req.params.date
+    let date = req.params.date
     const id = req.params.id
+    date = new Date(date).toLocaleDateString('en-CA')
+    // console.log(date);
     try{
         const classes = await Classes.getByDateAndActivity(date,id)
         if (classes.length ===  0){
