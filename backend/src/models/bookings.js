@@ -99,7 +99,7 @@ export const getBookingsByTrainerID = async (trainer_id) => {
     return allBookings;
 }
 
-getBookingsByTrainerID(1)
+// getBookingsByTrainerID(1).then(res => console.log(res))
 
 
 export const deleteBookingById = async(id)=>{
