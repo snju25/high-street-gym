@@ -19,7 +19,7 @@ export const createBooking = async(booking)=>{
         [
             booking.user_id,
             booking.class_id,
-            booking.date,
+            new Date(booking.date).toLocaleDateString('en-CA'),
             booking.trainer_id,
             booking.time
         ]
