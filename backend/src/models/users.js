@@ -40,23 +40,29 @@ export const  getByAuthenticationKey = async(authenticationKey) => {
 }
 
 export const getAllTrainerAndManager = async() =>{
-    const [allUserResults] = await db.query(`SELECT * FROM users WHERE user_role IN ("manager", "trainer")`)
+    try{
+        const [allUserResults] = await db.query(`SELECT * FROM users WHERE user_role IN ("manager", "trainer")`)
+    
+        return await allUserResults.map((userResult)=>{
+            return newUser(
+                userResult.user_id,
+                userResult.user_email,
+                userResult.user_password,
+                userResult.user_role,
+                userResult.user_phone,
+                userResult.user_firstName,
+                userResult.user_lastName,
+                userResult.user_address,
+                userResult.authenticationKey
+            )
+        })
 
-    return await allUserResults.map((userResult)=>{
-        return newUser(
-            userResult.user_id,
-            userResult.user_email,
-            userResult.user_password,
-            userResult.user_role,
-            userResult.user_phone,
-            userResult.user_firstName,
-            userResult.user_lastName,
-            userResult.user_address,
-            userResult.authenticationKey
-        )
-    })
+    } catch(err){
+        console.log(err);
+        throw err
+    }
 }
-// getAllTrainerAndManager().then(res => console.log(res))
+// getAllTrainerAndManager().then(res => console.log (res))
 
 export const createUser = async (user) =>{
     return db.query(

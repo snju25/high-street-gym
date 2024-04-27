@@ -3,9 +3,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-export const db = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER_DSB,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-});
+const URL_DATABASE = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQL_ROOT_PASSWORD}@${process.env.RAILWAY_TCP_PROXY_DOMAIN}:${process.env.RAILWAY_TCP_PROXY_PORT}/${process.env.MYSQL_DATABASE}`
+export const db = mysql.createConnection(URL_DATABASE)
+
+// Example of error handling
