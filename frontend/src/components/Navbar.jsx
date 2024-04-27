@@ -32,11 +32,11 @@ const Navbar = () => {
               <li>
                 <NavLink to="/">Calender</NavLink>
               </li>
-              { (user?.role === "member" || "trainer")  &&
+            
                 <li>
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
-              }
+          
               { (user?.role === "trainer" || user?.role === "manager") &&
                 <li>
                 <NavLink to="/importXML">XML Import</NavLink>
@@ -58,11 +58,10 @@ const Navbar = () => {
           <li>
                 <NavLink to="/">Calender</NavLink>
               </li>
-              { (user?.role === "member" || "trainer")  &&
                 <li>
                 <NavLink to="/bookings">Bookings</NavLink>
               </li>
-              }
+              
               { (user?.role === "trainer" || user?.role === "manager") &&
                 <li>
                 <NavLink to="/importXML">XML Import</NavLink>
