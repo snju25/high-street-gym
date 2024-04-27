@@ -1,7 +1,7 @@
 import axios from "axios"
 
  const customFetch = axios.create({
-    baseURL: "http://localhost:8081",
+    baseURL: "https://high-street-gym-production.up.railway.app",
     headers: {
         Accept: 'application/json',
       },
