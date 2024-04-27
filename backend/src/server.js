@@ -6,9 +6,13 @@ import classesRouter from "./routes/classes.js"
 import bookingRouter from "./routes/bookings.js"
 import activityRouter from "./routes/activity.js"
 import fileUpload from "express-fileupload"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const app = express();
-const port = 8081;
+
+const port = process.env.PORT ||  8081;
 
 // Enable cross-origin resources sharing (CORS)
 app.use(cors({
