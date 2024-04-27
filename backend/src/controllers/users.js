@@ -6,12 +6,20 @@ import xml2js from "xml2js"
 import validator from "validator";
 
 export const getTrainerAndManager = async (req,res)=>{
-    const users = await Users.getAllTrainerAndManager()
-    res.status(200).json({
-        status: 200,
-        message: "User list",
-        users: users,
-    })
+    try{
+        const users = await Users.getAllTrainerAndManager()
+        res.status(200).json({
+            status: 200,
+            message: "User list",
+            users: users,
+        })
+
+    }catch(err){
+        res.status(500).json({
+            status: 500,
+            message: "Failed to get User list",
+        })
+    }
 }
 // ---------Auth middleware -----------this will go in routes
 // Login
