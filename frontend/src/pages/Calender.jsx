@@ -90,6 +90,8 @@ const Calendar = () => {
     setStartDate(newStartDate.toISOString().split('T')[0]);
   };
 
+  const user = useSelector(state=> state.userState.user)
+
   return (
     <div>
       <div className="flex justify-between mb-5">
@@ -111,7 +113,7 @@ const Calendar = () => {
                     <h1 className="text-base md:text-2xl">{activity_name}</h1>
                     <p className="text-sm md:text-lg">{activity_description}</p>
                   </div>
-                  {(new Date(date) > currentDate) && (
+                  {(new Date(date) > currentDate && user?.role === "member") && (
                     <Link
                     to={`/createBooking/${new Date(date).toLocaleDateString('en-CA').split('/').join('-')}/${activity_id}`}
                     className="btn btn-primary"
