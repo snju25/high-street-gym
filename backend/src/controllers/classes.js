@@ -3,46 +3,66 @@ import xml2js from "xml2js"
 
 export const getClassesByDate = async(req,res) =>{
     const date = req.params.date
+    try{
+        const classes = await Classes.getClassesByDate(date)
+        res.status(200).json({
+            status: 200,
+            message: `Classes available on ${date}}`,
+            class: classes
+        })
+
+    }catch(err){
+        return res.status(400).json({
+            status: 400,
+            message: "Error" + err,
+        })
+    }
     
-    const classes = await Classes.getClassesByDate(date)
-    res.status(200).json({
-        status: 200,
-        message: `Classes available on ${date}}`,
-        class: classes
-    })
 }
 
 export const getAllUniqueActivity = async(req,res)=>{
     const date = req.params.date
-    const uniqueClasses =  await Classes.displayAllUniqueClassesByDate(date)
-    res.status(200).json({
-        status:200,
-        message: "Unique date from different classes",
-        uniqueClasses: uniqueClasses
-    })
+    try{
+        const uniqueClasses =  await Classes.displayAllUniqueClassesByDate(date)
+        res.status(200).json({
+            status:200,
+            message: "Unique date from different classes",
+            uniqueClasses: uniqueClasses
+        })
+
+    }catch(err){
+        return res.status(400).json({
+            status: 400,
+            message: "Error" + err,
+        })
+    }
 }
 
 export const getByDateAndActivity = async(req,res) => {
     const date = req.params.date
     const id = req.params.id
-
-    console.log(typeof date, date)
-
-
-    const classes = await Classes.getByDateAndActivity(date,id)
-    if (classes.length ===  0){
+    try{
+        const classes = await Classes.getByDateAndActivity(date,id)
+        if (classes.length ===  0){
+            return res.status(200).json({
+                status: 200,
+                message: "All classes on Monday with activity id",
+                classes: classes
+            })
+            
+        }
         return res.status(200).json({
             status: 200,
             message: "All classes on Monday with activity id",
             classes: classes
         })
-        
+
+    } catch(err){
+        return res.status(400).json({
+            status: 400,
+            message: "Error" + err,
+        })
     }
-    res.status(200).json({
-        status: 200,
-        message: "All classes on Monday with activity id",
-        classes: classes
-    })
 }
 
 

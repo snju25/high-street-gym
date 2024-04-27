@@ -4,12 +4,20 @@ import validator from "validator";
 
 // get all blogs
 export const getAllBlogs = async(req,res) =>{
-    const allBlogs = await BlogUser.getAllBlogs()
-    res.status(200).json({
-        status: 200,
-        message: "Blog List",
-        allBlogs: allBlogs
-    })
+    try{
+        const allBlogs = await BlogUser.getAllBlogs()
+        return res.status(200).json({
+            status: 200,
+            message: "Blog List",
+            allBlogs: allBlogs
+        })
+
+    } catch(err){
+        return res.status(500).json({
+            status: 200,
+            message: "Failed to get Blog List",
+        })
+    }
 
 }
 export const createABlog  = async(req,res) =>{
@@ -120,6 +128,11 @@ export const deleteBlogPost = async (req,res) =>{
         res.status(200).json({
             status: 200,
             message: "Deleted Successfully"
+        })
+    }).catch(err => {
+        res.status(400).json({
+            status: 400,
+            message: "Error deleting",
         })
     })
 }
