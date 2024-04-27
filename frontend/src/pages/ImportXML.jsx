@@ -95,6 +95,19 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
     }
   };
 
+  const newClassXML = 'http://localhost:5173/newClass.xml'
+  const newUserXML = 'http://localhost:5173/newUser.xml'
+
+  function downloadFileURL (url) {
+    const fileName = url.split("/").pop()
+    const aTag = document.createElement('a')
+    aTag.href= url
+    aTag.setAttribute('download',fileName)
+    document.body.appendChild(aTag)
+    aTag.click()
+    aTag.remove()
+  } 
+
   return (
     <>
       <div>
@@ -171,6 +184,11 @@ const ImportXML = ({ onUploadSuccess, uploadURL, disabled = false }) => {
             </>
           )}
         </form>
+      </div>
+
+      <div className="flex gap-3 mb-5">
+        <button onClick={() => {downloadFileURL(newUserXML)}} className="btn ">Download newMember.xml</button>
+        <button onClick={() => {downloadFileURL(newClassXML)}} className="btn">Download newMember.xml</button>
       </div>
 
       <div className="overflow-x-auto">

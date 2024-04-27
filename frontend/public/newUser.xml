@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE user-upload [
+    <!ELEMENT user-upload (users) >
+    <!ATTLIST user-upload operation (insert) "insert">
+    <!ELEMENT users (user+)>
+    <!ELEMENT user (email,password,role,phone,firstName,lastName,address,authenticationKey?) >
+    <!ELEMENT firstName (#PCDATA) >
+    <!ELEMENT lastName (#PCDATA) >
+    <!ELEMENT email (#PCDATA) >
+    <!ELEMENT password (#PCDATA) >
+    <!ELEMENT role (#PCDATA) >
+    <!ELEMENT phone (#PCDATA) >
+    <!ELEMENT address (#PCDATA) >
+    <!ELEMENT authenticationKey (#PCDATA) >
+    
+]>
+<user-upload operation="insert">
+    <users>
+        <user>
+            <email>test1@gmail.com</email>
+            <password>abc123</password>
+            <role>member</role>
+            <phone>1234</phone>
+            <firstName>1234</firstName>
+            <lastName>1234</lastName>
+            <address>1234</address>
+            <authenticationKey></authenticationKey>
+        </user>
+        <user>
+            <email>test2@gmail.com</email>
+            <password>abc123</password>
+            <role>member</role>
+            <phone>1234</phone>
+            <firstName>1234</firstName>
+            <lastName>1234</lastName>
+            <address>1234</address>
+            <authenticationKey></authenticationKey>
+        </user>
+    </users>
+</user-upload>

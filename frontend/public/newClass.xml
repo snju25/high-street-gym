@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE class-upload [
+    <!ELEMENT class-upload (classes) >
+    <!ATTLIST class-upload operation (insert) "insert">
+    <!ELEMENT classes (class+)>
+    <!ELEMENT class (datetime,activityID,trainerID,roomNumber,date) >
+    <!ELEMENT datetime (#PCDATA) >
+    <!ELEMENT activityID (#PCDATA) >
+    <!ELEMENT trainerID (#PCDATA) >
+    <!ELEMENT roomNumber (#PCDATA) >
+    <!ELEMENT date (#PCDATA) >
+    
+]>
+<class-upload operation="insert">
+    <classes>
+        <class>
+            <datetime>08:00:00</datetime>
+            <activityID>1</activityID>
+            <trainerID>1</trainerID>
+            <date>2024-06-01</date>
+            <roomNumber>3</roomNumber>
+      </class>
+        <class>
+            <datetime>09:00:00</datetime>
+            <activityID>2</activityID>
+            <trainerID>1</trainerID>
+            <date>2024-06-01</date>
+            <roomNumber>3</roomNumber>
+        </class>
+    </classes>
+</class-upload>
