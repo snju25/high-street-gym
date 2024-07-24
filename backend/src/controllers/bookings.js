@@ -70,3 +70,6 @@ export const getTrainerBookings = async(req,res)=>{
         })
     }
 }
+
+
+

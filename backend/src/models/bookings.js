@@ -106,6 +106,35 @@ export const deleteBookingById = async(id)=>{
     return db.query('DELETE FROM bookings WHERE booking_id = ?',id)
 }
 
+// check if booking already exist in database
+export const bookingAlreadyExist = async(booking)=>{
+    try{
+        const [bookings] = db.query(`
+        SELECT * FROM bookings WHERE booking_user_id=?,booking_class_id = ?, booking_date=?,booking_trainer_id=?,booking_time=?`
+        ,[
+            booking.user_id,
+            booking.class_id,
+            new Date(booking.date).toLocaleDateString('en-CA'),
+            booking.trainer_id,
+            booking.time
+        ])
+        return booking
+
+    }catch(err){
+        console.log(err)
+        return err
+    }
+  
+}
+// bookingAlreadyExist({
+//     bookings: {
+//         user_id:'44',
+//         class_id: '20',
+//         new Date().toLocaleDateString('en-CA'),
+//         trainer_id,
+//         time
+//     }
+// })
 
 
 

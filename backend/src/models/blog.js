@@ -11,7 +11,7 @@ export const newBlogPost = (id,dateTime,userID,title,content) =>{
 }
 
 export const getAllBlogPost = async () =>{
-    const [allBlogPosts] = await  db.query("SELECT * FROM blog_posts ORDER BY post_dateTime DESC")
+    const [allBlogPosts] = await  db.query("SELECT * FROM blog_posts")
     return await allBlogPosts.map((blogPost)=>{
         return newBlogPost(
             blogPost.post_id,
